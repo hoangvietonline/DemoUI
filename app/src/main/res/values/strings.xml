@@ -8,4 +8,8 @@
     <string name="login_to_your_app">LOGIN TO YOUR APP</string>
     <string name="or_login_with">OR LOGIN WITH</string>
     <string name="password">PASSWORD</string>
+    <string name="photo_mirror">PHOTO MIRROR</string>
+    <string name="hoangviet">HoangViet</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 </resources>
