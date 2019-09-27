@@ -12,4 +12,10 @@
     <string name="hoangviet">HoangViet</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mirror">Mirror</string>
+    <string name="frame">Frame</string>
+    <string name="filter">Filter</string>
 </resources>

@@ -4,18 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MirrorActivity">
+    android:background="#E0D9E9"
+    tools:context=".MirrorActivity"
+    >
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgMirror"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintVertical_bias="0.4"
+        android:layout_marginTop="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewPagerMirror"
         app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v4.view.ViewPager
+        app:layout_constraintVertical_weight="1.5"
+        android:id="@+id/viewPagerMirror"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayoutMirror"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgMirror" />
+
+    <android.support.design.widget.TabLayout
+        android:background="#fff"
+        app:layout_constraintVertical_weight="1"
+        android:id="@+id/tabLayoutMirror"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    
+        app:layout_constraintTop_toBottomOf="@+id/viewPagerMirror"
+        app:tabMode="fixed">
+
+    </android.support.design.widget.TabLayout>
+
 
 </android.support.constraint.ConstraintLayout>
