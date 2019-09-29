@@ -19,6 +19,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.196"
         app:layout_constraintEnd_toStartOf="@+id/buttonGallery"
+        android:background="@drawable/button_backgoung"
+        android:padding="10dp"
         />
 
     <Button
@@ -30,6 +32,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/buttonCamera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonCamera"
-        app:layout_constraintTop_toTopOf="@+id/buttonCamera" />
+        app:layout_constraintTop_toTopOf="@+id/buttonCamera"
+        android:background="@drawable/button_backgoung"
+        android:padding="10dp"
+        />
 
 </android.support.constraint.ConstraintLayout>

@@ -16,11 +16,13 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
     private Context mContext;
     private LayoutInflater layoutInflater;
     private List<Mirror> mirrorList;
+    private OnClickItemListener onClickItemListener;
 
-    public MirrorAdapter(Context mContext, List<Mirror> mirrorList) {
+    public MirrorAdapter(OnClickItemListener onClickItemListener,Context mContext, List<Mirror> mirrorList) {
         this.mContext = mContext;
         this.mirrorList = mirrorList;
         this.layoutInflater = LayoutInflater.from(mContext);
+        this.onClickItemListener = onClickItemListener;
     }
 
     @NonNull
@@ -31,14 +33,19 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MirrorViewHolder mirrorViewHolder, int i) {
-        Mirror mirror = mirrorList.get(i);
+    public void onBindViewHolder(@NonNull final MirrorViewHolder mirrorViewHolder, final int i) {
+        final Mirror mirror = mirrorList.get(i);
         mirrorViewHolder.txtMiror.setText(mirror.getTxtMirror());
         mirrorViewHolder.imgMirror.setImageResource(mirror.getImgMirror());
+        if (mirror.isClick()){
+            mirrorViewHolder.itemView.setBackgroundColor(Color.BLUE);
+        }else {
+            mirrorViewHolder.itemView.setBackgroundColor(Color.WHITE);
+        }
         mirrorViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mirrorViewHolder.itemView.setBackgroundColor(Color.BLUE);
+                onClickItemListener.onClickItem(i);
             }
         });
     }
@@ -56,5 +63,8 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
             imgMirror = itemView.findViewById(R.id.img_line_mirror);
             txtMiror = itemView.findViewById(R.id.txt_line_mirror);
         }
+    }
+    interface OnClickItemListener{
+        void onClickItem(int position);
     }
 }

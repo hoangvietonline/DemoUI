@@ -36,9 +36,9 @@ public class MainScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        Button btnCammera = findViewById(R.id.buttonCamera);
+        Button btnCamera = findViewById(R.id.buttonCamera);
         Button btnGallery = findViewById(R.id.buttonGallery);
-        btnCammera.setOnClickListener(new View.OnClickListener() {
+        btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(MainScreenActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
@@ -75,7 +75,6 @@ public class MainScreenActivity extends AppCompatActivity {
             Uri uri = data.getData();
             currentImagePath = uri.toString();
             Log.d(TAG, "onActivityResult: " + data.toString());
-
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
@@ -83,13 +82,16 @@ public class MainScreenActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            Intent intent = new Intent(MainScreenActivity.this, MirrorActivity.class);
+            intent.putExtra("uri", currentImagePath);
+            startActivity(intent);
         }
-        Intent intent = new Intent(MainScreenActivity.this, MirrorActivity.class);
-        intent.putExtra("uri", currentImagePath);
-        startActivity(intent);
-        Log.d(TAG, "onActivityResult: ádasdad" + currentImagePath);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+        else if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK){
+            Intent intent = new Intent(MainScreenActivity.this, MirrorActivity.class);
+            intent.putExtra("uri", currentImagePath);
+            startActivity(intent);
+        }
+}
 
     private File createImageFile() throws IOException {
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
