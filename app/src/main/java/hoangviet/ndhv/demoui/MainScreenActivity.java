@@ -73,9 +73,12 @@ public class MainScreenActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
-            currentImagePath = uri.toString();
+            if (uri != null) {
+                currentImagePath = uri.toString();
+            }
             Log.d(TAG, "onActivityResult: " + data.toString());
             try {
+                assert uri != null;
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 Log.d(TAG, "onActivityResult:bit map đó " + bitmap);

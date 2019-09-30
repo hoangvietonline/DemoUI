@@ -21,6 +21,9 @@ public class MirrorFragment extends Fragment implements MirrorAdapter.OnClickIte
     private RecyclerView recyclerView;
     private List<Mirror> mirrorList;
     private MirrorAdapter adapter;
+    private setTypeMirror setTypeMirror;
+
+
 
     public MirrorFragment() {
     }
@@ -38,14 +41,14 @@ public class MirrorFragment extends Fragment implements MirrorAdapter.OnClickIte
     }
 
     private void addMirror() {
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M1",false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M2",false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M3",false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M4",false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M5",false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M6",false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M7",false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M8",false));
+        mirrorList.add(new Mirror(R.drawable.icon_girl, "M1", false));
+        mirrorList.add(new Mirror(R.drawable.icon_girl, "M2", false));
+        mirrorList.add(new Mirror(R.drawable.icon_girl, "M3", false));
+        mirrorList.add(new Mirror(R.drawable.icon_girl, "M4", false));
+        mirrorList.add(new Mirror(R.drawable.icon_girl, "M5", false));
+        mirrorList.add(new Mirror(R.drawable.icon_girl, "M6", false));
+        mirrorList.add(new Mirror(R.drawable.icon_girl, "M7", false));
+        mirrorList.add(new Mirror(R.drawable.icon_girl, "M8", false));
 
     }
 
@@ -53,12 +56,19 @@ public class MirrorFragment extends Fragment implements MirrorAdapter.OnClickIte
     public void onClickItem(int pos) {
         Mirror mirror = mirrorList.get(pos);
         for (int i = 0; i < mirrorList.size(); i++) {
-            if (pos == i){
+            if (pos == i) {
                 mirror.setClick(true);
-            }else {
+            } else {
                 mirrorList.get(i).setClick(false);
             }
         }
+        if (pos == 0) {
+
+        }
         adapter.notifyDataSetChanged();
+    }
+
+    interface setTypeMirror {
+        void setTypeM1();
     }
 }

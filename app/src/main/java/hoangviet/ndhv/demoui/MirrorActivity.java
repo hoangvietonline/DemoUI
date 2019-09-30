@@ -5,20 +5,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.ImageView;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Objects;
 
@@ -26,6 +21,8 @@ public class MirrorActivity extends AppCompatActivity {
     private static final int FLIP_VERTICAL = 1;
     private static final int FLIP_HORIZONTAL = 2;
     private TabLayout tabLayoutMirror;
+    private CustomView customView;
+    private static final String TAG = "MirrorActivity";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -33,24 +30,33 @@ public class MirrorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mirror);
         ViewPager viewPagerMirror = findViewById(R.id.viewPagerMirror);
-        final ImageView imgMirror = findViewById(R.id.imgMirror);
+        customView = findViewById(R.id.customViewMirror);
         tabLayoutMirror = findViewById(R.id.tabLayoutMirror);
         Intent intent = getIntent();
         String uri = intent.getStringExtra("uri");
-        imgMirror.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Glide.with(this)
-                .asBitmap()
-                .load(uri)
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Bitmap bitmap = flipHorizontal(resource);
-                        imgMirror.setImageBitmap(bitmap);
-                    }
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                    }
-                });
+        customView.setBitmapFlip(uri);
+
+        customView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action){
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case  MotionEvent.ACTION_MOVE:
+                        customView.setCurrentX((int) event.getX());
+                        customView.invalidate();
+                        Log.d(TAG, "onTouch: " +event.getAction());
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+
+                }
+
+                return true;
+            }
+        });
+
         ViewPagerMirrorAdapter adapter = new ViewPagerMirrorAdapter(getSupportFragmentManager());
         viewPagerMirror.setAdapter(adapter);
         tabLayoutMirror.setupWithViewPager(viewPagerMirror);
@@ -100,18 +106,5 @@ public class MirrorActivity extends AppCompatActivity {
         canvas.drawBitmap(bitmapFlip, width + flipGap, 0, null);
         return bitmapWithFlip;
     }
-    private Canvas canvas(Bitmap bitmap){
-        int flipGap = 0;
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
 
-        Matrix matrix = new Matrix();
-        matrix.preScale(-1.0f, 1.0f);
-        Bitmap bitmapFlip = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-        Bitmap bitmapWithFlip = Bitmap.createBitmap((width + width + flipGap), height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmapWithFlip);
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        canvas.drawBitmap(bitmapFlip, width + flipGap, 0, null);
-        return canvas;
-    }
 }
