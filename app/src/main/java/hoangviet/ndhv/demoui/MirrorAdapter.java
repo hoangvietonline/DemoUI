@@ -67,4 +67,5 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
     interface OnClickItemListener{
         void onClickItem(int position);
     }
+
 }

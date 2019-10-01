@@ -4,8 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,9 +18,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -77,24 +73,15 @@ public class MainScreenActivity extends AppCompatActivity {
                 currentImagePath = uri.toString();
             }
             Log.d(TAG, "onActivityResult: " + data.toString());
-            try {
-                assert uri != null;
-                InputStream inputStream = getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                Log.d(TAG, "onActivityResult:bit map đó " + bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            Intent intent = new Intent(MainScreenActivity.this, MirrorActivity.class);
+            intent.putExtra("uri", currentImagePath);
+            startActivity(intent);
+        } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {
             Intent intent = new Intent(MainScreenActivity.this, MirrorActivity.class);
             intent.putExtra("uri", currentImagePath);
             startActivity(intent);
         }
-        else if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK){
-            Intent intent = new Intent(MainScreenActivity.this, MirrorActivity.class);
-            intent.putExtra("uri", currentImagePath);
-            startActivity(intent);
-        }
-}
+    }
 
     private File createImageFile() throws IOException {
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());

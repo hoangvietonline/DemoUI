@@ -17,12 +17,13 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
-public class MirrorActivity extends AppCompatActivity {
+public class MirrorActivity extends AppCompatActivity implements MirrorFragment.OnClickTypeMirror {
     private static final int FLIP_VERTICAL = 1;
     private static final int FLIP_HORIZONTAL = 2;
+    private static final String TAG = "MirrorActivity";
+    private String type = "";
     private TabLayout tabLayoutMirror;
     private CustomView customView;
-    private static final String TAG = "MirrorActivity";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -32,21 +33,23 @@ public class MirrorActivity extends AppCompatActivity {
         ViewPager viewPagerMirror = findViewById(R.id.viewPagerMirror);
         customView = findViewById(R.id.customViewMirror);
         tabLayoutMirror = findViewById(R.id.tabLayoutMirror);
+
         Intent intent = getIntent();
         String uri = intent.getStringExtra("uri");
+        String typeImage = intent.getStringExtra("typeImage");
         customView.setBitmapFlip(uri);
-
+//        customView.setTypeImageChoose(typeImage);
         customView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
-                switch (action){
+                switch (action) {
                     case MotionEvent.ACTION_DOWN:
                         break;
-                    case  MotionEvent.ACTION_MOVE:
+                    case MotionEvent.ACTION_MOVE:
                         customView.setCurrentX((int) event.getX());
                         customView.invalidate();
-                        Log.d(TAG, "onTouch: " +event.getAction());
+                        Log.d(TAG, "onTouch: " + event.getAction());
                         break;
                     case MotionEvent.ACTION_UP:
                         break;
@@ -56,7 +59,7 @@ public class MirrorActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+        Log.d(TAG, "onCreate:type   " + type);
         ViewPagerMirrorAdapter adapter = new ViewPagerMirrorAdapter(getSupportFragmentManager());
         viewPagerMirror.setAdapter(adapter);
         tabLayoutMirror.setupWithViewPager(viewPagerMirror);
@@ -107,4 +110,15 @@ public class MirrorActivity extends AppCompatActivity {
         return bitmapWithFlip;
     }
 
+    @Override
+    public void onTypeM1(String M1) {
+        type = M1;
+        customView.setTypeMirror(M1);
+        Log.d(TAG, "onTypeM1: " +type);
+    }
+
+    @Override
+    public void onTypeM2(String M2) {
+        customView.setTypeMirror(M2);
+    }
 }

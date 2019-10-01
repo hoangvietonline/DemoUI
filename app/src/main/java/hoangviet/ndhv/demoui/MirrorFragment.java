@@ -1,6 +1,7 @@
 package hoangviet.ndhv.demoui;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,11 +22,22 @@ public class MirrorFragment extends Fragment implements MirrorAdapter.OnClickIte
     private RecyclerView recyclerView;
     private List<Mirror> mirrorList;
     private MirrorAdapter adapter;
-    private setTypeMirror setTypeMirror;
+    private OnClickTypeMirror listener;
 
 
+    public static MirrorFragment newInstance() {
+        
+        Bundle args = new Bundle();
+        
+        MirrorFragment fragment = new MirrorFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-    public MirrorFragment() {
+    @Override
+    public void onAttach(Context context) {
+        listener = (OnClickTypeMirror) getActivity();
+        super.onAttach(context);
     }
 
     @Override
@@ -63,12 +75,17 @@ public class MirrorFragment extends Fragment implements MirrorAdapter.OnClickIte
             }
         }
         if (pos == 0) {
-
+            String M1 = "M1";
+            listener.onTypeM1(M1);
+        }
+        if (pos == 1){
+            String M2 = "M2";
+            listener.onTypeM2(M2);
         }
         adapter.notifyDataSetChanged();
     }
-
-    interface setTypeMirror {
-        void setTypeM1();
+    public interface OnClickTypeMirror{
+        void onTypeM1(String s);
+        void onTypeM2(String s);
     }
 }
