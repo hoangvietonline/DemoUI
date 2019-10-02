@@ -36,7 +36,7 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
 
         Intent intent = getIntent();
         String uri = intent.getStringExtra("uri");
-        String typeImage = intent.getStringExtra("typeImage");
+
         customView.setBitmapFlip(uri);
 //        customView.setTypeImageChoose(typeImage);
         customView.setOnTouchListener(new View.OnTouchListener() {
@@ -45,13 +45,17 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
                 int action = event.getAction();
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
+                        event.getX();
+                        Log.d(TAG, "onTouch:action down " + event.getX());
                         break;
                     case MotionEvent.ACTION_MOVE:
                         customView.setCurrentX((int) event.getX());
+                        customView.setCurrentY((int) event.getY());
                         customView.invalidate();
                         Log.d(TAG, "onTouch: " + event.getAction());
                         break;
                     case MotionEvent.ACTION_UP:
+                        Log.d(TAG, "onTouch:action up " + event.getX());
                         break;
 
                 }
@@ -120,5 +124,35 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
     @Override
     public void onTypeM2(String M2) {
         customView.setTypeMirror(M2);
+    }
+
+    @Override
+    public void onTypeM3(String M3) {
+        customView.setTypeMirror(M3);
+    }
+
+    @Override
+    public void onTypeM4(String M4) {
+        customView.setTypeMirror(M4);
+    }
+
+    @Override
+    public void onTypeM5(String M5) {
+        customView.setTypeMirror(M5);
+    }
+
+    @Override
+    public void onTypeM6(String M6) {
+        customView.setTypeMirror(M6);
+    }
+
+    @Override
+    public void onTypeM7(String M7) {
+        customView.setTypeMirror(M7);
+    }
+
+    @Override
+    public void onTypeM8(String M8) {
+        customView.setTypeMirror(M8);
     }
 }
