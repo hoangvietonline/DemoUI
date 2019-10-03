@@ -61,6 +61,7 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
                         customView.setDownX((int) event.getX());
+                        customView.invalidate();
                         Log.d(TAG, "onTouch:action down " + event.getX());
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -71,6 +72,7 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
                         break;
                     case MotionEvent.ACTION_UP:
                         customView.setUpX((int) event.getX());
+                        customView.invalidate();
                         Log.d(TAG, "onTouch:action up " + event.getX());
                         break;
                 }

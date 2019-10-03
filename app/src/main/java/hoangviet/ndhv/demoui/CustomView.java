@@ -30,23 +30,9 @@ public class CustomView extends View {
     private String typeMirror = "M1";
     private Bitmap bitmap;
     private String typeFrame = "";
-    public int getDownX() {
-        return downX;
-    }
-
-    public void setDownX(int downX) {
-        this.downX = downX;
-    }
-
-    public int getUpX() {
-        return upX;
-    }
-
-    public void setUpX(int upX) {
-        this.upX = upX;
-    }
-
-
+    private int leng = 0;
+    private int left = 0;
+    private int right =0;
 
     public CustomView(Context context) {
         super(context);
@@ -63,6 +49,21 @@ public class CustomView extends View {
         init(context, attrs);
     }
 
+    public int getDownX() {
+        return downX;
+    }
+
+    public void setDownX(int downX) {
+        this.downX = downX;
+    }
+
+    public int getUpX() {
+        return upX;
+    }
+
+    public void setUpX(int upX) {
+        this.upX = upX;
+    }
 
     public int getCurrentX() {
         return currentX;
@@ -90,7 +91,7 @@ public class CustomView extends View {
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(final Canvas canvas) {
-        
+        leng = upX - downX;
         if (bitmap != null) {
             int btmGalleryWidth = bitmap.getWidth();
             int btmGalleryHeight = bitmap.getHeight();
@@ -110,30 +111,32 @@ public class CustomView extends View {
 
                 int leftM1L = (bitmapScale.getWidth() - getWidth() / 2);
                 int rightM1L = bitmapScale.getWidth();
-                if (currentX <= getWidth()/2) {
+                if (currentX <= getWidth()) {
+//                    if ((leftM1L - currentX) >= 0 && rightM1L <= bitmapScale.getWidth()) {
+                    left += (leftM1L + leng);
+                    right += rightM1L + leng;
+                        canvas.drawBitmap(bitmapScale, new Rect(leftM1L, 0, rightM1L, getHeight()), desM1L, null);
+//                        canvas.drawBitmap(bitmapMatrix, new Rect(currentX, 0, getWidth() / 2 + currentX, getHeight()), desM1R, null);
+//                    } else if ((leftM1L - currentX) < 0) {
+//                        currentX = bitmapScale.getWidth() - getWidth() / 2;
+//                        canvas.drawBitmap(bitmapScale, new Rect(leftM1L - currentX, 0, rightM1L - currentX, getHeight()), desM1L, null);
+//                        canvas.drawBitmap(bitmapMatrix, new Rect(currentX, 0, getWidth() / 2 + currentX, getHeight()), desM1R, null);
+//                    }
+//                } else if (currentX > getWidth() / 2 && currentX <= getWidth()) {
+//                    int currentXR = getWidth() - currentX;
+//                    int leftM1R = 0;
+//                    int rightM1R = getWidth() / 2;
+//                    if (rightM1R + currentXR <= bitmapScale.getWidth()) {
+//                        canvas.drawBitmap(bitmapScale, new Rect(leftM1L - currentXR, 0, rightM1L - currentXR, getHeight()), desM1L, null);
+//                        canvas.drawBitmap(bitmapMatrix, new Rect(leftM1R + currentXR, 0, rightM1R + currentXR, getHeight()), desM1R, null);
+//                    } else if (rightM1R + currentXR > bitmapScale.getWidth()) {
+//                        currentXR = bitmapScale.getWidth() - getWidth() / 2;
+//                        canvas.drawBitmap(bitmapScale, new Rect(leftM1L - currentXR, 0, rightM1L - currentXR, getHeight()), desM1L, null);
+//                        canvas.drawBitmap(bitmapMatrix, new Rect(leftM1R + currentXR, 0, rightM1R + currentXR, getHeight()), desM1R, null);
+//                    }
 
-                    if ((leftM1L - currentX) >= 0 && rightM1L <= bitmapScale.getWidth()) {
-                        canvas.drawBitmap(bitmapScale, new Rect(leftM1L - currentX, 0, rightM1L - currentX, getHeight()), desM1L, null);
-                        canvas.drawBitmap(bitmapMatrix, new Rect(currentX, 0, getWidth() / 2 + currentX, getHeight()), desM1R, null);
-                    } else if ((leftM1L - currentX) < 0) {
-                        currentX = bitmapScale.getWidth() - getWidth() / 2;
-                        canvas.drawBitmap(bitmapScale, new Rect(leftM1L - currentX, 0, rightM1L - currentX, getHeight()), desM1L, null);
-                        canvas.drawBitmap(bitmapMatrix, new Rect(currentX, 0, getWidth() / 2 + currentX, getHeight()), desM1R, null);
-                    }
-                } else if (currentX > getWidth() / 2 && currentX <= getWidth()) {
-                    int currentXR = getWidth() - currentX;
-                    int leftM1R = 0;
-                    int rightM1R = getWidth() / 2;
-                    if (rightM1R + currentXR <= bitmapScale.getWidth()) {
-                        canvas.drawBitmap(bitmapScale, new Rect(leftM1L - currentXR, 0, rightM1L - currentXR, getHeight()), desM1L, null);
-                        canvas.drawBitmap(bitmapMatrix, new Rect(leftM1R + currentXR, 0, rightM1R + currentXR, getHeight()), desM1R, null);
-                    } else if (rightM1R + currentXR > bitmapScale.getWidth()) {
-                        currentXR = bitmapScale.getWidth() - getWidth() / 2;
-                        canvas.drawBitmap(bitmapScale, new Rect(leftM1L - currentXR, 0, rightM1L - currentXR, getHeight()), desM1L, null);
-                        canvas.drawBitmap(bitmapMatrix, new Rect(leftM1R + currentXR, 0, rightM1R + currentXR, getHeight()), desM1R, null);
-                    }
                 }
-                Log.d(TAG, "onDraw: currentX == " + currentX);
+//                Log.d(TAG, "onDraw: currentX == " + currentX);
             }
             if (typeMirror.equals("M2")) {
                 @SuppressLint("DrawAllocation") Rect desM2L = new Rect(0, 0, getWidth() / 2, getHeight());
@@ -261,19 +264,19 @@ public class CustomView extends View {
             }
 
             if (typeFrame.equals("F2")) {
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.frame_image);
-                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap,getWidth(),getHeight(),true);
-                canvas.drawBitmap(bitscaleFrame,0,0,mPaint);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.frame_image);
+                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                canvas.drawBitmap(bitscaleFrame, 0, 0, mPaint);
             }
             if (typeFrame.equals("F3")) {
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.flow_frame);
-                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap,getWidth(),getHeight(),true);
-                canvas.drawBitmap(bitscaleFrame,0,0,mPaint);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flow_frame);
+                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                canvas.drawBitmap(bitscaleFrame, 0, 0, mPaint);
             }
-            if (typeFrame.equals("F4")){
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.icon_1);
-                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap,getWidth(),getHeight(),true);
-                canvas.drawBitmap(bitscaleFrame,0,0,mPaint);
+            if (typeFrame.equals("F4")) {
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_1);
+                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                canvas.drawBitmap(bitscaleFrame, 0, 0, mPaint);
             }
             Log.d(TAG, "onDraw:type " + typeFrame);
         }
@@ -283,7 +286,8 @@ public class CustomView extends View {
         typeMirror = type;
         invalidate();
     }
-    public void setTypeFrame(String type){
+
+    public void setTypeFrame(String type) {
         typeFrame = type;
         invalidate();
     }

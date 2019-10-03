@@ -28,7 +28,7 @@ public class FilterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filter,container,false);
-        recyclerView = getActivity().findViewById(R.id.recyclerViewFilter);
+        recyclerView = view.findViewById(R.id.recyclerViewFilter);
         filterDataList = new ArrayList<>();
         addFilterList();
         adapter = new FilterAdapter(getActivity(),filterDataList);
@@ -38,7 +38,7 @@ public class FilterFragment extends Fragment {
         return view;
     }
 
-    public static final String EFFECT_CONFIGS[] = {
+    public static final String[] EFFECT_CONFIGS = {
             "@adjust lut original.png",
             "@adjust lut natural01.png",
             "@adjust lut natural02.png",
