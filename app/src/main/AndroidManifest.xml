@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TempActivity"></activity>
+        <activity android:name=".TempActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -23,7 +23,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_camera_path"></meta-data>
+                android:resource="@xml/file_camera_path" />
         </provider>
 
         <activity android:name=".MirrorActivity" />

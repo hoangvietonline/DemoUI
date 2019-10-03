@@ -15,9 +15,9 @@ public class ViewPagerMirrorAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new MirrorFragment();
             case 1:
-                return new MirrorFragment();
+                return new FrameFragment();
             case 2:
-                return new MirrorFragment();
+                return new FilterFragment();
 
         }
         return null;

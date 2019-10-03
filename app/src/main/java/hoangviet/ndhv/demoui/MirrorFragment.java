@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import hoangviet.ndhv.demoui.model.Mirror;
+
 
 /**
  * A simple {@link Fragment} subclass.

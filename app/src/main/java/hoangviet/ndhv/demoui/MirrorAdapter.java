@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import hoangviet.ndhv.demoui.model.Mirror;
+
 public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorViewHolder> {
     private Context mContext;
     private LayoutInflater layoutInflater;
@@ -28,7 +30,7 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
     @NonNull
     @Override
     public MirrorViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = layoutInflater.inflate(R.layout.line_mirror,viewGroup,false);
+        View view = layoutInflater.inflate(R.layout.item_mirror,viewGroup,false);
         return new MirrorViewHolder(view);
     }
 

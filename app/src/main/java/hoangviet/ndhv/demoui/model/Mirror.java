@@ -1,4 +1,4 @@
-package hoangviet.ndhv.demoui;
+package hoangviet.ndhv.demoui.model;
 
 public class Mirror {
     private int imgMirror;

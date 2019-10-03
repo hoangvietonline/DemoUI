@@ -4,11 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0D9E9"
+    android:background="#F9FCFC"
     tools:context=".MirrorActivity"
     android:id="@+id/constrainLayout"
     >
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar_mirror"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:outlineAmbientShadowColor="#1A1818"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp"
+        tools:ignore="UnusedAttribute">
+
+        <TextView
+            android:id="@+id/txt_tittle_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mirror"
+            android:layout_gravity = "center"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+    </android.support.v7.widget.Toolbar>
     <hoangviet.ndhv.demoui.CustomView
         android:id="@+id/customViewMirror"
         android:layout_width="match_parent"
