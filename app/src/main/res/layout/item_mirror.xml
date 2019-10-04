@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:background="#9ABFE4"
     android:padding="2dp">
 
@@ -16,7 +16,8 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/txt_line_mirror"
@@ -24,7 +25,7 @@
         android:layout_height="13dp"
         android:background="#880F0E0E"
         android:gravity="center"
-        android:text="Type Mirror"
+        android:text="@string/type_mirror"
         android:textColor="#0A0A0A"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

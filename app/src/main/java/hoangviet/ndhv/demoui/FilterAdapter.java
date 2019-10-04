@@ -19,8 +19,10 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
     private LayoutInflater mLayoutInflater;
     private List<FilterData> filterDataList;
     private int currentPosition =0;
+    private onCLickItemFilterLitener onCLickItemFilterLitener;
 
-    public FilterAdapter(Context mContext, List<FilterData> filterDataList) {
+    public FilterAdapter(onCLickItemFilterLitener onCLickItemFilterLitener,Context mContext, List<FilterData> filterDataList) {
+        this.onCLickItemFilterLitener = onCLickItemFilterLitener;
         this.mContext = mContext;
         this.filterDataList = filterDataList;
         this.mLayoutInflater = LayoutInflater.from(mContext);
@@ -38,17 +40,19 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
         final FilterData filterData = filterDataList.get(i);
         filterViewHolder.txtFilter.setText(filterData.getFilterName());
         filterViewHolder.imgFilter.setImageResource(filterData.getFilterId());
+
+        if (filterData.isChooseFilter()){
+            filterViewHolder.constraintLayout.setBackgroundResource(R.drawable.bg_item_filter_selected);
+        }else {
+            filterViewHolder.constraintLayout.setBackgroundResource(R.drawable.bg_item_filter_unselected);
+        }
         filterViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentPosition = i;
+                onCLickItemFilterLitener.clickItem(i);
             }
         });
-        if (currentPosition == i){
-            filterViewHolder.constraintLayout.setBackgroundColor(R.drawable.bg_item_filter_selected);
-        }else {
-            filterViewHolder.constraintLayout.setBackgroundColor(R.drawable.bg_item_filter_unselected);
-        }
+
     }
 
     @Override
@@ -66,5 +70,8 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
             txtFilter = itemView.findViewById(R.id.txt_item_filter);
             constraintLayout = itemView.findViewById(R.id.constrainLayoutFilter);
         }
+    }
+    interface onCLickItemFilterLitener{
+        void clickItem(int position);
     }
 }

@@ -19,4 +19,5 @@
     <string name="frame">Frame</string>
     <string name="filter">Filter</string>
     <string name="next">next</string>
+    <string name="type_mirror">Type Mirror</string>
 </resources>

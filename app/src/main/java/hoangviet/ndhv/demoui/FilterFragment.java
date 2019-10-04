@@ -19,25 +19,7 @@ import hoangviet.ndhv.demoui.model.FilterData;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilterFragment extends Fragment {
-    List<FilterData> filterDataList;
-    RecyclerView recyclerView;
-    FilterAdapter adapter;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_filter,container,false);
-        recyclerView = view.findViewById(R.id.recyclerViewFilter);
-        filterDataList = new ArrayList<>();
-        addFilterList();
-        adapter = new FilterAdapter(getActivity(),filterDataList);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),6, LinearLayoutManager.VERTICAL,false));
-
-        return view;
-    }
-
+public class FilterFragment extends Fragment implements FilterAdapter.onCLickItemFilterLitener {
     public static final String[] EFFECT_CONFIGS = {
             "@adjust lut original.png",
             "@adjust lut natural01.png",
@@ -55,16 +37,44 @@ public class FilterFragment extends Fragment {
             "@adjust lut vintage.png",
             "@adjust lut gray.png",
     };
-    private void addFilterList() {
+    List<FilterData> filterDataList;
+    RecyclerView recyclerView;
+    FilterAdapter adapter;
 
-        filterDataList.add(new FilterData("original",EFFECT_CONFIGS[1],R.drawable.icon_girl));
-        filterDataList.add(new FilterData("original",EFFECT_CONFIGS[2],R.drawable.icon_girl));
-        filterDataList.add(new FilterData("original",EFFECT_CONFIGS[3],R.drawable.icon_girl));
-        filterDataList.add(new FilterData("original",EFFECT_CONFIGS[4],R.drawable.icon_girl));
-        filterDataList.add(new FilterData("original",EFFECT_CONFIGS[5],R.drawable.icon_girl));
-        filterDataList.add(new FilterData("original",EFFECT_CONFIGS[6],R.drawable.icon_girl));
-        filterDataList.add(new FilterData("original",EFFECT_CONFIGS[7],R.drawable.icon_girl));
-        filterDataList.add(new FilterData("original",EFFECT_CONFIGS[8],R.drawable.icon_girl));
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_filter, container, false);
+        recyclerView = view.findViewById(R.id.recyclerViewFilter);
+        filterDataList = new ArrayList<>();
+        addFilterList();
+        adapter = new FilterAdapter(this, getActivity(), filterDataList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 6, LinearLayoutManager.VERTICAL, false));
+
+        return view;
     }
 
+    private void addFilterList() {
+
+        filterDataList.add(new FilterData("original", EFFECT_CONFIGS[1], R.drawable.icon_girl, false));
+        filterDataList.add(new FilterData("original", EFFECT_CONFIGS[2], R.drawable.icon_girl, false));
+        filterDataList.add(new FilterData("original", EFFECT_CONFIGS[3], R.drawable.icon_girl, false));
+        filterDataList.add(new FilterData("original", EFFECT_CONFIGS[4], R.drawable.icon_girl, false));
+        filterDataList.add(new FilterData("original", EFFECT_CONFIGS[5], R.drawable.icon_girl, false));
+        filterDataList.add(new FilterData("original", EFFECT_CONFIGS[6], R.drawable.icon_girl, false));
+        filterDataList.add(new FilterData("original", EFFECT_CONFIGS[7], R.drawable.icon_girl, false));
+        filterDataList.add(new FilterData("original", EFFECT_CONFIGS[8], R.drawable.icon_girl, false));
+    }
+
+    @Override
+    public void clickItem(int position) {
+        for (int i = 0; i < filterDataList.size(); i++) {
+            if (i == position)
+                filterDataList.get(i).setChooseFilter(true);
+            else
+                filterDataList.get(i).setChooseFilter(false);
+        }
+        adapter.notifyDataSetChanged();
+    }
 }
