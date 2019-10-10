@@ -56,6 +56,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
         Log.d(TAG, "onBindViewHolder:bitmap byte " + bitmap.getByteCount());
         filterViewHolder.txtFilter.setText(filterData.getFilterName());
         filterViewHolder.imgFilter.setImageBitmap(bitmap);
+        filterViewHolder.imgFilter.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         if (filterData.isChooseFilter()) {
             filterViewHolder.constraintLayout.setBackgroundResource(R.drawable.bg_item_filter_selected);

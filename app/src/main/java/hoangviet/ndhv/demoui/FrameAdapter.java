@@ -1,5 +1,6 @@
 package hoangviet.ndhv.demoui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -20,7 +21,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.FrameViewHol
     private List<Frame> frameList;
     private onClickItemFrameListener onClickItemFrameListener;
 
-    public FrameAdapter(onClickItemFrameListener onClickItemFrameListener,Context mContext, List<Frame> frameList) {
+    FrameAdapter(onClickItemFrameListener onClickItemFrameListener,Context mContext, List<Frame> frameList) {
         this.mContext = mContext;
         this.frameList = frameList;
         this.layoutInflater = LayoutInflater.from(mContext);
@@ -35,7 +36,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.FrameViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FrameViewHolder frameViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull FrameViewHolder frameViewHolder, @SuppressLint("RecyclerView") final int i) {
         Frame frame = frameList.get(i);
         if (frame.isChooseFrame()){
             frameViewHolder.frameLayout.setBackgroundColor(Color.BLUE);
@@ -43,6 +44,7 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.FrameViewHol
             frameViewHolder.frameLayout.setBackgroundColor(Color.WHITE);
         }
         frameViewHolder.imgFrame.setImageResource(frame.getImgFrame());
+        frameViewHolder.imgFrame.setScaleType(ImageView.ScaleType.FIT_XY);
         frameViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,10 +59,10 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.FrameViewHol
         return frameList.size();
     }
 
-    public class FrameViewHolder extends RecyclerView.ViewHolder {
+    class FrameViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgFrame;
         private FrameLayout frameLayout;
-        public FrameViewHolder(@NonNull View itemView) {
+        FrameViewHolder(@NonNull View itemView) {
             super(itemView);
             imgFrame = itemView.findViewById(R.id.img_line_frame);
             frameLayout = itemView.findViewById(R.id.frameLayoutFrame);

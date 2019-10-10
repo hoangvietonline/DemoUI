@@ -1,5 +1,6 @@
 package hoangviet.ndhv.demoui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +9,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +38,7 @@ import java.util.List;
 
 public class SaveImageActivity extends AppCompatActivity implements ItemShareAdapter.OnClickItemShareListener {
     private static final String TAG = "SaveImageActivity";
+    private static final int REQUEST_CODE_FILE = 124;
     private ImageView imgSave;
     private Toolbar toolbarSave;
     private Bitmap bitmap;
@@ -50,6 +55,8 @@ public class SaveImageActivity extends AppCompatActivity implements ItemShareAda
         setContentView(R.layout.activity_save_image);
         toolbarSave = findViewById(R.id.toolbarSaveActivity);
         txtUriImage = findViewById(R.id.txtUriImage);
+
+
         recyclerViewShare = findViewById(R.id.recyclerViewShare);
         itemShareList = new ArrayList<>();
         addItemsShare();
@@ -73,7 +80,7 @@ public class SaveImageActivity extends AppCompatActivity implements ItemShareAda
         Log.d(TAG, "onCreate:bitmap " + bitmap.getByteCount());
         imgSave = findViewById(R.id.imgSaveActivity);
         imgSave.setImageBitmap(bitmap);
-        startSaveImage();
+        isStoragePermissionGranted();
         imageUri = FileProvider.getUriForFile(SaveImageActivity.this, "com.camera.android.FileProvider", new_file);
     }
 
@@ -108,12 +115,15 @@ public class SaveImageActivity extends AppCompatActivity implements ItemShareAda
     }
 
     @SuppressLint("SetTextI18n")
-    private void startSaveImage() {
+    private void startSaveImage(File fileDir) {
         FileOutputStream fileOutputStream = null;
-        File fileImage = fileDisc();
-        if (!fileImage.exists() && !fileImage.mkdirs()) {
-            Toast.makeText(this, "can't create directory to save Image", Toast.LENGTH_SHORT).show();
-            return;
+        File fileImage = fileDir;
+        if (!fileImage.exists()) {
+            boolean success = fileImage.mkdirs();
+            if (!success) {
+                Toast.makeText(this, "can't create folder Image", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String date = formatDate.format(new Date());
@@ -132,15 +142,26 @@ public class SaveImageActivity extends AppCompatActivity implements ItemShareAda
             e.printStackTrace();
         }
         scanGallery(this, new_file.getAbsolutePath());
-        Log.d(TAG, "startSaveImage:new_file " + new_file.getAbsolutePath());
         txtUriImage.setText(this.getString(R.string.saveImage) + " " + new_file.getAbsolutePath());
     }
 
     private File fileDisc() {
 //        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Mirror"
 //        File file1 = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File file = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        return new File(file, "Mirror");
+//        File file = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Mirror");
+        return file;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_FILE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                File file = fileDisc();
+                startSaveImage(file);
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     // scanning the gallery
@@ -207,4 +228,26 @@ public class SaveImageActivity extends AppCompatActivity implements ItemShareAda
                     "Installed application first", Toast.LENGTH_LONG).show();
         }
     }
+
+    public boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                File file = fileDisc();
+                startSaveImage(file);
+                return true;
+            } else {
+                Log.v(TAG, "Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_FILE);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG, "Permission is granted");
+            File file = fileDisc();
+            startSaveImage(file);
+            return true;
+        }
+    }
+
+
 }

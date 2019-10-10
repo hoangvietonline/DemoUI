@@ -204,7 +204,7 @@ public class CustomView extends View {
                 @SuppressLint("DrawAllocation") Bitmap bitmapMatrix = Bitmap.createBitmap(bitmapScale, 0, 0, bitmapScale.getWidth(), bitmapScale.getHeight(), matrix, true);
                 int newEndX = initDrawBitmapTouchX(bitmapScale);
                 canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM7L, null);
-                canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM7R, null);
+                canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, bitmapMatrix.getHeight()-getHeight(), bitmapMatrix.getWidth() - newStartX, bitmapMatrix.getHeight()), desM7R, null);
             }
             if (typeMirror.equals("M8")) {
                 Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);

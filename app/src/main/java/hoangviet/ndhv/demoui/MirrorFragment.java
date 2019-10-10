@@ -51,7 +51,7 @@ public class MirrorFragment extends Fragment implements MirrorAdapter.OnClickIte
         Mirror mirror = mirrorList.get(0);
         mirror.setClick(true);
         adapter = new MirrorAdapter(this, getActivity(), mirrorList);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 6, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         return view;
     }
