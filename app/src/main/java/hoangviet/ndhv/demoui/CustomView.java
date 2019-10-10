@@ -14,12 +14,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-
 public class CustomView extends View {
     private static final String TAG = "CustomView";
     private Paint mPaint;
@@ -117,14 +111,12 @@ public class CustomView extends View {
     @Override
     protected void onDraw(final Canvas canvas) {
         if (bitmap != null) {
+            Log.d(TAG, "onDraw:bitmap " + bitmap.toString());
             int btmGalleryWidth = bitmap.getWidth();
             int btmGalleryHeight = bitmap.getHeight();
             int scale = Math.min(btmGalleryWidth / (getWidth() / 2), btmGalleryHeight / getHeight());
 
             Bitmap bitmapScale = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / scale, bitmap.getHeight() / scale, true);
-            Log.d(TAG, "onDraw:width " + bitmapScale.getWidth());
-            Log.d(TAG, "onDraw:height " + bitmapScale.getHeight());
-            Log.d(TAG, "onDraw: bitmap " + bitmap);
             if (typeMirror.equals("M1")) {
                 @SuppressLint("DrawAllocation") Rect desM1L = new Rect(0, 0, getWidth() / 2, getHeight());
                 @SuppressLint("DrawAllocation") Rect desM1R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
@@ -146,7 +138,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapScale, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM2R, null);
             }
             if (typeMirror.equals("M3")) {
-                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(), (int) (bitmap.getHeight() / 1.5), true);
+                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);
                 Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM3 = new Matrix();
@@ -157,7 +149,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapFlipM3, new Rect(0, bitmapFlipM3.getHeight() - newEndY, getWidth(), bitmapFlipM3.getHeight() - newStartY), desM3B, null);
             }
             if (typeMirror.equals("M4")) {
-                Bitmap bitmapScaleM4 = Bitmap.createScaledBitmap(bitmap, getWidth(), (int) (bitmap.getHeight() / 1.5), true);
+                Bitmap bitmapScaleM4 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);
                 Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM4 = new Matrix();
@@ -187,7 +179,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5R, null);
             }
             if (typeMirror.equals("M6")) {
-                Bitmap bitmapScaleM6 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / 2), true);
+                Bitmap bitmapScaleM6 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);
                 Rect desM6T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM6B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 int delta = downY - currentY;
@@ -215,7 +207,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM7R, null);
             }
             if (typeMirror.equals("M8")) {
-                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / 2), true);
+                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);
                 Rect desM8T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM8B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM3 = new Matrix();
@@ -237,11 +229,25 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitscaleFrame, 0, 0, mPaint);
             }
             if (typeFrame.equals("F4")) {
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flow_frame);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.frame_1);
                 Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
                 canvas.drawBitmap(bitscaleFrame, 0, 0, mPaint);
             }
-            Log.d(TAG, "onDraw:type " + typeFrame);
+            if (typeFrame.equals("F5")) {
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.frame_2);
+                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                canvas.drawBitmap(bitscaleFrame, 0, 0, mPaint);
+            }
+            if (typeFrame.equals("F6")) {
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.frame_4);
+                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                canvas.drawBitmap(bitscaleFrame, 0, 0, mPaint);
+            }
+            if (typeFrame.equals("F7")) {
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.frame_7);
+                Bitmap bitscaleFrame = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+                canvas.drawBitmap(bitscaleFrame, 0, 0, mPaint);
+            }
         }
     }
 
@@ -255,28 +261,13 @@ public class CustomView extends View {
         invalidate();
     }
 
-    public void setBitmapFlip(String uri) {
-        Log.d(TAG, "setBitmapFlip: uriFlip: " + uri);
-        Glide.with(getContext())
-                .asBitmap()
-                .load(uri)
-                .addListener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        bitmap = resource;
-                        Log.d(TAG, "onResourceReady:resource " + resource);
-                        invalidate();
-                        return true;
-                    }
-                }).submit();
+    public void setBitmapFlip(Bitmap bitmapFlip) {
+        bitmap = bitmapFlip;
+        invalidate();
     }
 
-    private int initDrawBitmapTouchX( Bitmap bitmapScale) {
+
+    private int initDrawBitmapTouchX(Bitmap bitmapScale) {
         int newEndX;
         int delta = downX - currentX;
         if (downX > getWidth() / 2)
@@ -293,7 +284,8 @@ public class CustomView extends View {
         }
         return newEndX;
     }
-    private int initDrawBitmapTouchY(Bitmap bitmapScale){
+
+    private int initDrawBitmapTouchY(Bitmap bitmapScale) {
         int newEndY;
         int delta = downY - currentY;
         if (downY > getHeight() / 2)

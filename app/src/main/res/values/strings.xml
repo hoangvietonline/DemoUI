@@ -20,4 +20,8 @@
     <string name="filter">Filter</string>
     <string name="next">next</string>
     <string name="type_mirror">Type Mirror</string>
+    <string name="house">House</string>
+    <string name="share">Share</string>
+    <string name="facebook_app_id">548525741452584841</string>
+    <string name="saveImage">Image saved at:</string>
 </resources>

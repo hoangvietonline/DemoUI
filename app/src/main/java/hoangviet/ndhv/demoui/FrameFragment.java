@@ -43,9 +43,10 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
         frameList.add(new Frame(R.drawable.disabled,false));
         frameList.add(new Frame(R.drawable.frame_image,false));
         frameList.add(new Frame(R.drawable.flow_frame,false));
-        frameList.add(new Frame(R.drawable.frame_khung,false));
-        frameList.add(new Frame(R.drawable.frame4,false));
-        frameList.add(new Frame(R.drawable.icon,false));
+        frameList.add(new Frame(R.drawable.frame_1,false));
+        frameList.add(new Frame(R.drawable.frame_2,false));
+        frameList.add(new Frame(R.drawable.frame_4,false));
+        frameList.add(new Frame(R.drawable.frame_7,false));
     }
 
     @Override
@@ -75,6 +76,9 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
         if (position == 5){
             mListener.setTypeF6("F6");
         }
+        if (position == 6){
+            mListener.setTypeF7("F7");
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -91,5 +95,6 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
         void setTypeF4(String F4);
         void setTypeF5(String F5);
         void setTypeF6(String F6);
+        void setTypeF7(String F7);
     }
 }

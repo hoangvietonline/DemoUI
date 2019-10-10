@@ -57,14 +57,14 @@ public class MirrorFragment extends Fragment implements MirrorAdapter.OnClickIte
     }
 
     private void addMirror() {
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M1", false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M2", false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M3", false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M4", false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M5", false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M6", false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M7", false));
-        mirrorList.add(new Mirror(R.drawable.icon_girl, "M8", false));
+        mirrorList.add(new Mirror(R.drawable.image_backgoung, "M1", false));
+        mirrorList.add(new Mirror(R.drawable.image_backgoung, "M2", false));
+        mirrorList.add(new Mirror(R.drawable.image_backgoung, "M3", false));
+        mirrorList.add(new Mirror(R.drawable.image_backgoung, "M4", false));
+        mirrorList.add(new Mirror(R.drawable.image_backgoung, "M5", false));
+        mirrorList.add(new Mirror(R.drawable.image_backgoung, "M6", false));
+        mirrorList.add(new Mirror(R.drawable.image_backgoung, "M7", false));
+        mirrorList.add(new Mirror(R.drawable.image_backgoung, "M8", false));
     }
 
     @Override
