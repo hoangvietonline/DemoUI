@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import hoangviet.ndhv.demoui.model.ItemShare;
+
 public class ItemShareAdapter extends RecyclerView.Adapter<ItemShareAdapter.ItemViewHolder> {
     private Context mContext;
     private LayoutInflater inflater;

@@ -20,7 +20,7 @@ import hoangviet.ndhv.demoui.model.Frame;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FrameFragment extends Fragment implements FrameAdapter.onClickItemFrameListener{
+public class FrameFragment extends Fragment implements FrameAdapter.onClickItemFrameListener {
     private RecyclerView recyclerViewFrame;
     private List<Frame> frameList;
     private FrameAdapter adapter;
@@ -33,53 +33,34 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
         recyclerViewFrame = view.findViewById(R.id.recyclerViewFrame);
         frameList = new ArrayList<>();
         addFrame();
-        adapter = new FrameAdapter(this,getActivity(),frameList);
+        adapter = new FrameAdapter(this, getActivity(), frameList);
         recyclerViewFrame.setAdapter(adapter);
-        recyclerViewFrame.setLayoutManager(new GridLayoutManager(getActivity(),6, LinearLayoutManager.VERTICAL,false));
+        recyclerViewFrame.setLayoutManager(new GridLayoutManager(getActivity(), 6, LinearLayoutManager.VERTICAL, false));
         return view;
     }
 
     private void addFrame() {
-        frameList.add(new Frame(R.drawable.disabled,false));
-        frameList.add(new Frame(R.drawable.frame_image,false));
-        frameList.add(new Frame(R.drawable.flow_frame,false));
-        frameList.add(new Frame(R.drawable.frame_1,false));
-        frameList.add(new Frame(R.drawable.frame_2,false));
-        frameList.add(new Frame(R.drawable.frame_4,false));
-        frameList.add(new Frame(R.drawable.frame_7,false));
+        frameList.add(new Frame(R.drawable.disabled, false));
+        frameList.add(new Frame(R.drawable.frame_image, false));
+        frameList.add(new Frame(R.drawable.flow_frame, false));
+        frameList.add(new Frame(R.drawable.frame_1, false));
+        frameList.add(new Frame(R.drawable.frame_2, false));
+        frameList.add(new Frame(R.drawable.frame_4, false));
+        frameList.add(new Frame(R.drawable.frame_7, false));
     }
 
     @Override
     public void onClickItemFrame(int position) {
-        for (int i = 0; i<frameList.size();i++){
-            if (i == position){
+        for (int i = 0; i < frameList.size(); i++) {
+            if (i == position) {
                 frameList.get(i).setChooseFrame(true);
-            }else {
+            } else {
                 frameList.get(i).setChooseFrame(false);
             }
         }
-        if (position == 0){
-            mListener.setTypeF1("F1");
-        }
-        if (position == 1){
-            mListener.setTypeF2("F2");
-        }
-        if (position == 2){
-            mListener.setTypeF3("F3");
-        }
-        if (position == 3){
-            mListener.setTypeF4("F4");
-        }
-        if (position == 4){
-            mListener.setTypeF5("F5");
-        }
-        if (position == 5){
-            mListener.setTypeF6("F6");
-        }
-        if (position == 6){
-            mListener.setTypeF7("F7");
-        }
+        mListener.setTypeFrame("F" + (position + 1));
         adapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -88,13 +69,7 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
         super.onAttach(context);
     }
 
-    interface setTypeFrameListener{
-        void setTypeF1(String F1);
-        void setTypeF2(String F2);
-        void setTypeF3(String F3);
-        void setTypeF4(String F4);
-        void setTypeF5(String F5);
-        void setTypeF6(String F6);
-        void setTypeF7(String F7);
+    interface setTypeFrameListener {
+        void setTypeFrame(String frame);
     }
 }

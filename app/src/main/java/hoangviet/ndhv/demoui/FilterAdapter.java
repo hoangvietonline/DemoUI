@@ -66,7 +66,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
         filterViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCLickItemFilterLitener.clickItem(i);
+                        onCLickItemFilterLitener.clickItem(i);
             }
         });
 

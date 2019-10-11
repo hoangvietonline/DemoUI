@@ -64,8 +64,8 @@ public class FilterFragment extends Fragment implements FilterAdapter.onCLickIte
     private void addFilterList() {
         filterDataList.add(new FilterData("None",EFFECT_CONFIGS[0], R.drawable.image_backgoung, false));
         filterDataList.add(new FilterData("Original", EFFECT_CONFIGS[1], R.drawable.image_backgoung, false));
-        filterDataList.add(new FilterData("natural01", EFFECT_CONFIGS[2], R.drawable.image_backgoung, false));
-        filterDataList.add(new FilterData("natural02", EFFECT_CONFIGS[3], R.drawable.image_backgoung, false));
+        filterDataList.add(new FilterData("natural1", EFFECT_CONFIGS[2], R.drawable.image_backgoung, false));
+        filterDataList.add(new FilterData("natural2", EFFECT_CONFIGS[3], R.drawable.image_backgoung, false));
         filterDataList.add(new FilterData("pure01", EFFECT_CONFIGS[4], R.drawable.image_backgoung, false));
         filterDataList.add(new FilterData("pure02", EFFECT_CONFIGS[5], R.drawable.image_backgoung, false));
         filterDataList.add(new FilterData("lovely01", EFFECT_CONFIGS[6], R.drawable.image_backgoung, false));
@@ -95,88 +95,10 @@ public class FilterFragment extends Fragment implements FilterAdapter.onCLickIte
                 filterDataList.get(i).setChooseFilter(false);
         }
         adapter.notifyDataSetChanged();
-        if (position == 0) {
-            onTypeFilterListener.onTypeFilter0();
-        }
-        if (position == 1) {
-            onTypeFilterListener.onTypeFilter1();
-        }
-        if (position == 2) {
-            onTypeFilterListener.onTypeFilter2();
-        }
-        if (position == 3) {
-            onTypeFilterListener.onTypeFilter3();
-        }
-        if (position == 4) {
-            onTypeFilterListener.onTypeFilter4();
-        }
-        if (position == 5) {
-            onTypeFilterListener.onTypeFilter5();
-        }
-        if (position == 6) {
-            onTypeFilterListener.onTypeFilter6();
-        }
-        if (position == 7) {
-            onTypeFilterListener.onTypeFilter7();
-        }
-        if (position == 8) {
-            onTypeFilterListener.onTypeFilter8();
-        }
-        if (position == 9) {
-            onTypeFilterListener.onTypeFilter9();
-        }
-        if (position == 10) {
-            onTypeFilterListener.onTypeFilter10();
-        }
-        if (position == 11) {
-            onTypeFilterListener.onTypeFilter11();
-        }
-        if (position == 12) {
-            onTypeFilterListener.onTypeFilter12();
-        }
-        if (position == 13) {
-            onTypeFilterListener.onTypeFilter13();
-        }
-        if (position == 14){
-            onTypeFilterListener.onTypeFilter14();
-        }
-        if (position == 15){
-            onTypeFilterListener.onTypeFilter15();
-        }
-
+        onTypeFilterListener.onTypeFilter(position);
     }
 
     interface OnTypeFilterListener {
-        void onTypeFilter0();
-
-        void onTypeFilter1();
-
-        void onTypeFilter2();
-
-        void onTypeFilter3();
-
-        void onTypeFilter4();
-
-        void onTypeFilter5();
-
-        void onTypeFilter6();
-
-        void onTypeFilter7();
-
-        void onTypeFilter8();
-
-        void onTypeFilter9();
-
-        void onTypeFilter10();
-
-        void onTypeFilter11();
-
-        void onTypeFilter12();
-
-        void onTypeFilter13();
-
-        void onTypeFilter14();
-
-        void onTypeFilter15();
+        void onTypeFilter(int position);
     }
 }

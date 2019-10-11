@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class CustomView extends View {
@@ -105,6 +106,7 @@ public class CustomView extends View {
         mPaint.setStyle(Paint.Style.FILL);
         startX = 0;
         startY = 0;
+
     }
 
     @SuppressLint("DrawAllocation")
@@ -115,7 +117,6 @@ public class CustomView extends View {
             int btmGalleryWidth = bitmap.getWidth();
             int btmGalleryHeight = bitmap.getHeight();
             int scale = Math.min(btmGalleryWidth / (getWidth() / 2), btmGalleryHeight / getHeight());
-
             Bitmap bitmapScale = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / scale, bitmap.getHeight() / scale, true);
             if (typeMirror.equals("M1")) {
                 @SuppressLint("DrawAllocation") Rect desM1L = new Rect(0, 0, getWidth() / 2, getHeight());
@@ -138,7 +139,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapScale, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM2R, null);
             }
             if (typeMirror.equals("M3")) {
-                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);
+                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
                 Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM3 = new Matrix();
@@ -149,7 +150,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapFlipM3, new Rect(0, bitmapFlipM3.getHeight() - newEndY, getWidth(), bitmapFlipM3.getHeight() - newStartY), desM3B, null);
             }
             if (typeMirror.equals("M4")) {
-                Bitmap bitmapScaleM4 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);
+                Bitmap bitmapScaleM4 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
                 Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM4 = new Matrix();
@@ -163,9 +164,7 @@ public class CustomView extends View {
                 @SuppressLint("DrawAllocation") Rect desM5L = new Rect(0, 0, getWidth() / 2, getHeight());
                 @SuppressLint("DrawAllocation") Rect desM5R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
                 int delta = downX - currentX;
-
                 newStartX = startX + delta;
-
                 int newEndX = newStartX + getWidth() / 2;
                 if (newEndX >= bitmapScale.getWidth()) {
                     newEndX = bitmapScale.getWidth();
@@ -174,12 +173,11 @@ public class CustomView extends View {
                     newStartX = 0;
                     newEndX = newStartX + getWidth() / 2;
                 }
-
                 canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5L, null);
                 canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5R, null);
             }
             if (typeMirror.equals("M6")) {
-                Bitmap bitmapScaleM6 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);
+                Bitmap bitmapScaleM6 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
                 Rect desM6T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM6B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 int delta = downY - currentY;
@@ -204,10 +202,10 @@ public class CustomView extends View {
                 @SuppressLint("DrawAllocation") Bitmap bitmapMatrix = Bitmap.createBitmap(bitmapScale, 0, 0, bitmapScale.getWidth(), bitmapScale.getHeight(), matrix, true);
                 int newEndX = initDrawBitmapTouchX(bitmapScale);
                 canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM7L, null);
-                canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, bitmapMatrix.getHeight()-getHeight(), bitmapMatrix.getWidth() - newStartX, bitmapMatrix.getHeight()), desM7R, null);
+                canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, bitmapMatrix.getHeight() - getHeight(), bitmapMatrix.getWidth() - newStartX, bitmapMatrix.getHeight()), desM7R, null);
             }
             if (typeMirror.equals("M8")) {
-                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(),(bitmap.getHeight()/(bitmap.getWidth()/getWidth())), true);
+                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
                 Rect desM8T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM8B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM3 = new Matrix();
@@ -301,5 +299,29 @@ public class CustomView extends View {
             newEndY = newStartY + getHeight() / 2;
         }
         return newEndY;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int action = event.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                setDownX((int) event.getX());
+                setDownY((int) event.getY());
+                Log.d(TAG, "onTouch:action down " + event.getX());
+                break;
+            case MotionEvent.ACTION_MOVE:
+                setCurrentX((int) event.getX());
+                setCurrentY((int) event.getY());
+                invalidate();
+                Log.d(TAG, "onTouch: " + event.getAction());
+                break;
+            case MotionEvent.ACTION_UP:
+                setUpX((int) event.getX());
+                setUpY((int) event.getY());
+                Log.d(TAG, "onTouch:action up " + event.getX());
+                break;
+        }
+        return true;
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SaveImageActivity">
+    tools:context=".ShareActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarSaveActivity"
@@ -41,7 +41,7 @@
         android:id="@+id/txtUriImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"

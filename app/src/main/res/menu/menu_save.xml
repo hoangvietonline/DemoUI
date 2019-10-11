@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/homeMirror"
-        android:icon="@drawable/houses"
+        android:icon="@drawable/ic_house"
         android:title="@string/house"
         app:showAsAction="always"
         />
