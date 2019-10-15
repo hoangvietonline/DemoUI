@@ -53,6 +53,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), filterData.getFilterId(),options);
         bitmap = CGENativeLibrary.filterImage_MultipleEffects(bitmap, FilterFragment.EFFECT_CONFIGS[i], 1.0f);
+        
         Log.d(TAG, "onBindViewHolder:bitmap byte " + bitmap.getByteCount());
         filterViewHolder.txtFilter.setText(filterData.getFilterName());
         filterViewHolder.imgFilter.setImageBitmap(bitmap);

@@ -39,7 +39,7 @@ public class FilterFragment extends Fragment implements FilterAdapter.onCLickIte
             "@adjust lut cool01.png",
             "@adjust lut cool02.png",
             "@adjust lut vintage.png",
-            "@adjust lut gray.png",
+            "@adjust lut gray.png"
     };
     private List<FilterData> filterDataList;
     private RecyclerView recyclerView;
@@ -101,4 +101,5 @@ public class FilterFragment extends Fragment implements FilterAdapter.onCLickIte
     interface OnTypeFilterListener {
         void onTypeFilter(int position);
     }
+
 }

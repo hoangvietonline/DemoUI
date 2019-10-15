@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "214904063651",
+    "firebase_url": "https://mirror-644b6.firebaseio.com",
+    "project_id": "mirror-644b6",
+    "storage_bucket": "mirror-644b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214904063651:android:6ada41010f20168b5da116",
+        "android_client_info": {
+          "package_name": "hoangviet.ndhv.demoui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214904063651-h9dp7bkev960hje9rkg2ck03lfilmbuf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKT16jZQK9pV9ZJqo-Ez-xEHxABwaLa3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214904063651-h9dp7bkev960hje9rkg2ck03lfilmbuf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

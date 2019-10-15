@@ -121,7 +121,6 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
                     public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                         bitmapResource = resource;
                         customView.setBitmapFlip(bitmapResource);
-                        Log.d(TAG, "onResourceReady:resource " + resource);
                         return true;
                     }
                 }).submit();
@@ -164,7 +163,6 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
                     tabOne.setTextColor(R.color.colorBlack);
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int i) {
 
@@ -172,6 +170,7 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
         });
     }
 
+    @SuppressLint("InflateParams")
     private void createIconTabLayout() {
         tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custum_tab, null);
         tabOne.setText(getString(R.string.mirror));
@@ -208,6 +207,7 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
                 bitmapCustom = getBitmapFromView(customView);
                 isStoragePermissionGranted();
                 Uri imageUri = FileProvider.getUriForFile(MirrorActivity.this, "com.camera.android.FileProvider", new_file);
+                Log.d(TAG, "onOptionsItemSelected: " + imageUri.toString());
                 String addressFile = new_file.getAbsolutePath();
                 Bundle bundle = new Bundle();
                 bundle.putString("UriFileImage", imageUri.toString());
@@ -220,8 +220,8 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
     }
 
     @Override
-    public void setTypeFrame(String frame) {
-        customView.setTypeFrame(frame);
+    public void setTypeFrame(String type) {
+        customView.setTypeFrame(type);
     }
 
     @Override

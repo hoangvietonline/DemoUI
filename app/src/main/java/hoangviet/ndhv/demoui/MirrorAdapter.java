@@ -23,8 +23,6 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
     private LayoutInflater layoutInflater;
     private List<Mirror> mirrorList;
     private OnClickItemListener onClickItemListener;
-    private int heightItemView;
-    private int widthItemView;
 
     public MirrorAdapter(OnClickItemListener onClickItemListener, Context mContext, List<Mirror> mirrorList) {
         this.mContext = mContext;
@@ -66,8 +64,6 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
                 onClickItemListener.onClickItem(i);
             }
         });
-        heightItemView = mirrorViewHolder.itemView.getHeight();
-        widthItemView = mirrorViewHolder.itemView.getWidth();
     }
 
     @Override

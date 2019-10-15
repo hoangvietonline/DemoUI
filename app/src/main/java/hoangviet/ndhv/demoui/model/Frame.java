@@ -1,20 +1,43 @@
 package hoangviet.ndhv.demoui.model;
 
 public class Frame {
-    private int imgFrame;
+    private String nameFrame;
+    private String thubFrame;
+    private String pathFrame;
     private boolean isChooseFrame;
 
-    public Frame(int imgFrame, boolean isChooseFrame) {
-        this.imgFrame = imgFrame;
+    public Frame(String nameFrame, String thubFrame, String pathFrame, boolean isChooseFrame) {
+        this.nameFrame = nameFrame;
+        this.thubFrame = thubFrame;
+        this.pathFrame = pathFrame;
         this.isChooseFrame = isChooseFrame;
     }
 
-    public int getImgFrame() {
-        return imgFrame;
+    public Frame() {
     }
 
-    public void setImgFrame(int imgFrame) {
-        this.imgFrame = imgFrame;
+    public String getNameFrame() {
+        return nameFrame;
+    }
+
+    public void setNameFrame(String nameFrame) {
+        this.nameFrame = nameFrame;
+    }
+
+    public String getThubFrame() {
+        return thubFrame;
+    }
+
+    public void setThubFrame(String thubFrame) {
+        this.thubFrame = thubFrame;
+    }
+
+    public String getPathFrame() {
+        return pathFrame;
+    }
+
+    public void setPathFrame(String pathFrame) {
+        this.pathFrame = pathFrame;
     }
 
     public boolean isChooseFrame() {
