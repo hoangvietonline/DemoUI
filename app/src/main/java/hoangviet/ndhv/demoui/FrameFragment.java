@@ -49,6 +49,7 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
     private FrameAdapter adapter;
     private setTypeFrameListener mListener;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,8 +106,8 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
                 frameList.get(i).setChooseFrame(false);
             }
         }
-        saveToInternalStorage(frame);
-        mListener.setTypeFrame(frame.getNameFrame());
+//        saveToInternalStorage(frame);
+        mListener.setTypeFrame(frame.getNameFrame(),frame.getPathFrame());
         adapter.notifyDataSetChanged();
     }
 
@@ -133,7 +134,7 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
                         Toast.makeText(getActivity(), "save image success", Toast.LENGTH_SHORT).show();
                         fos.flush();
                         fos.close();
-                        mListener.setTypeFrame(frame.getNameFrame());
+                        mListener.setTypeFrame(frame.getNameFrame(),frame.getPathFrame());
                         adapter.notifyDataSetChanged();
                     } catch (java.io.IOException e) {
                         e.printStackTrace();
@@ -164,6 +165,8 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
     }
 
     interface setTypeFrameListener {
-        void setTypeFrame(String type);
+        void setTypeFrame(String type,String pathFrame);
     }
+
+
 }
