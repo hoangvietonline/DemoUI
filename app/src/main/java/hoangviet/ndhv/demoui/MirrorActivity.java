@@ -2,8 +2,6 @@ package hoangviet.ndhv.demoui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -45,15 +42,11 @@ import com.bumptech.glide.request.target.Target;
 
 import org.wysaid.nativePort.CGENativeLibrary;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -61,9 +54,6 @@ import java.util.Objects;
 public class MirrorActivity extends AppCompatActivity implements MirrorFragment.OnClickTypeMirror, FrameFragment.setTypeFrameListener, FilterFragment.OnTypeFilterListener {
     private static final String TAG = "MirrorActivity";
     private static final int REQUEST_CODE_FILE = 124;
-    private ProgressDialog pDialog;
-    private static final int progressBar_type = 0;
-    private String uriFrame;
     public CGENativeLibrary.LoadImageCallback mLoadImageCallback = new CGENativeLibrary.LoadImageCallback() {
         @Override
         public Bitmap loadImage(String name, Object arg) {
@@ -85,13 +75,14 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
 
         }
     };
+    public ProgressBar progressBarFilter;
     private File new_file;
     private TabLayout tabLayoutMirror;
     private CustomView customView;
     private TextView txtTitleToobar;
     private Bitmap bitmapResource, bitmapCustom;
-    private TextView tabOne,tabTwo,tabThree;
-    public ProgressBar progressBarFilter;
+    private TextView tabOne, tabTwo, tabThree;
+
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,13 +164,12 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
                     tabOne.setTextColor(R.color.colorBlack);
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int i) {
 
             }
         });
-
-        new DownloadFileFromURL().execute(uriFrame);
     }
 
     @SuppressLint("InflateParams")
@@ -232,9 +222,8 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
     }
 
     @Override
-    public void setTypeFrame(String type,String uri) {
+    public void setTypeFrame(String type) {
         customView.setTypeFrame(type);
-        uriFrame = uri;
     }
 
     @Override
@@ -355,103 +344,5 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
         }
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case progressBar_type: // we set this to 0
-                pDialog = new ProgressDialog(this);
-                pDialog.setMessage("Downloading file. Please wait...");
-                pDialog.setIndeterminate(false);
-                pDialog.setMax(100);
-                pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                pDialog.setCancelable(true);
-                pDialog.show();
-                return pDialog;
-            default:
-                return null;
-        }
-    }
-    class DownloadFileFromURL extends AsyncTask<String, String, String> {
 
-        /**
-         * Before starting background thread Show Progress Bar Dialog
-         */
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showDialog(progressBar_type);
-        }
-
-        /**
-         * Downloading file in background thread
-         */
-        @Override
-        protected String doInBackground(String... f_url) {
-            int count;
-            try {
-                URL url = new URL(f_url[0]);
-                URLConnection conection = url.openConnection();
-                conection.connect();
-
-                // this will be useful so that you can show a tipical 0-100%
-                // progress bar
-                int lenghtOfFile = conection.getContentLength();
-
-                // download the file
-                InputStream input = new BufferedInputStream(url.openStream(),
-                        8192);
-
-                // Output stream
-                OutputStream output = new FileOutputStream(Environment
-                        .getExternalStorageDirectory().toString()
-                        + "/2011.kml");
-
-                byte data[] = new byte[1024];
-
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-
-                    // writing data to file
-                    output.write(data, 0, count);
-                }
-
-                // flushing output
-                output.flush();
-
-                // closing streams
-                output.close();
-                input.close();
-
-            } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
-            }
-
-            return null;
-        }
-
-        /**
-         * Updating progress bar
-         */
-        protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-            pDialog.setProgress(Integer.parseInt(progress[0]));
-        }
-
-        /**
-         * After completing background task Dismiss the progress dialog
-         **/
-        @Override
-        protected void onPostExecute(String file_url) {
-            // dismiss the dialog after the file was downloaded
-            dismissDialog(progressBar_type);
-
-        }
-
-    }
-
-    }
+}
