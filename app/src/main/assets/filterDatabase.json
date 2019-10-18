@@ -1,0 +1,104 @@
+{
+  "-LrODLaWtqt5CMzE64Zn" : {
+    "filterName" : "1974B",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2F1974B.png?alt=media&token=deae6b4b-ba88-4013-9730-0c63d0500377",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2F1974B.png?alt=media&token=c1c29735-22b7-49ba-aec4-1e7f0d5e63a3",
+    "rule" : "@adjust lut 1974B.png"
+  },
+  "-LrODLbDoo5gQYeNO8IG" : {
+    "filterName" : "1974A",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2F1974A.png?alt=media&token=0ff0e1c3-d3d7-4e09-bd7b-e96dca5580b6",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2F1974A.png?alt=media&token=25a6180a-3d03-4059-b4b8-d14adb85c8a5",
+    "rule" : "@adjust lut 1974A.png"
+  },
+  "-LrODM5t5lFn1_U7evZX" : {
+    "filterName" : "1974C",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2F1974C.png?alt=media&token=841e3445-95ed-4349-99a0-2c9dfe451692",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2F1974C.png?alt=media&token=fe3c0c11-4b43-488b-a3e1-f0dfca533646",
+    "rule" : "@adjust lut 1974C.png"
+  },
+  "-LrODM7uigYW18sxbCPU" : {
+    "filterName" : "BlueA",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FBlueA.png?alt=media&token=a71c9770-9a7f-4006-8db9-fb0b0c7c7bd4",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FBlueA.png?alt=media&token=920da4ef-df2b-4c7a-a6d7-19a20d7f3b23",
+    "rule" : "@adjust lut BlueA.png"
+  },
+  "-LrODMdm7vYtMgG0IAEY" : {
+    "filterName" : "BlueB",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FBlueB.png?alt=media&token=a479036f-4f34-4c53-b5bf-1215b9246a13",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FBlueB.png?alt=media&token=7d0e39b4-63b3-4687-a104-f0e6df48790b",
+    "rule" : "@adjust lut BlueB.png"
+  },
+  "-LrODMdoBYbRnGWm1sJd" : {
+    "filterName" : "BlueC",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FBlueC.png?alt=media&token=b4f1aebd-71ab-4fb7-8344-d1481a5abf03",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FBlueC.png?alt=media&token=a4353544-e063-43b9-87f3-c997c5193e2a",
+    "rule" : "@adjust lut BlueC.png"
+  },
+  "-LrODN8s6ayU_GvVItN9" : {
+    "filterName" : "BrownB",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FBrownB.png?alt=media&token=76282fa1-d6cc-4f82-8cb3-9b2d8c035994",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FBrownB.png?alt=media&token=6635fa56-015e-4c2d-865b-23eee5941b59",
+    "rule" : "@adjust lut BrownB.png"
+  },
+  "-LrODNh76TMaV7k_eiB0" : {
+    "filterName" : "BrownC",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FBrownC.png?alt=media&token=a8694bbb-fecd-4d6c-ba5f-364235d5534b",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FBrownC.png?alt=media&token=76bfbdab-211c-488f-bd66-19512fcdbed4",
+    "rule" : "@adjust lut BrownC.png"
+  },
+  "-LrODO5WnBv2lUyHsbXl" : {
+    "filterName" : "GreenA",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FGreenA.png?alt=media&token=e3eebcd1-b0c5-4ec3-840e-f4a5592c631f",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FGreenA.png?alt=media&token=2fe21a98-0313-4daa-a68b-200635cf9e8e",
+    "rule" : "@adjust lut GreenA.png"
+  },
+  "-LrODOa6ZrWbL_w2IP-N" : {
+    "filterName" : "GreenB",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FGreenB.png?alt=media&token=42078218-be6a-4388-a204-ab0551415f17",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FGreenB.png?alt=media&token=b02b813a-0c37-4dc3-89a4-556647b55d45",
+    "rule" : "@adjust lut GreenB.png"
+  },
+  "-LrODP49x-ja9XZ3xGgA" : {
+    "filterName" : "GreenC",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FGreenC.png?alt=media&token=a46b618d-de92-4ea3-80e4-1b4105cb913c",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FGreenC.png?alt=media&token=137ff65d-2534-4262-82c5-c98c00629f29",
+    "rule" : "@adjust lut GreenC.png"
+  },
+  "-LrODPWQyB83FwHSqdVs" : {
+    "filterName" : "PickA",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FPinkA.png?alt=media&token=ca79ed63-7c2f-4ec1-8817-f5399e21b851",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FPickA.png?alt=media&token=44727607-86ad-472f-b223-2de948591c92",
+    "rule" : "@adjust lut PickA.png"
+  },
+  "-LrODPsLULaGCi3xrLrk" : {
+    "filterName" : "PickB",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FPinkB.png?alt=media&token=6c053bff-0736-4db4-9c36-5188efa29f57",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FPickB.png?alt=media&token=2bcf54a5-4d8a-4422-87d3-b5923f008405",
+    "rule" : "@adjust lut PickB.png"
+  },
+  "-LrODPxNlu6rOQxQ-G44" : {
+    "filterName" : "purpleC",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FpurpleC.png?alt=media&token=5d08a9a0-88a3-4ce7-8c5a-8ef4c9e978a0",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FpurpleC.png?alt=media&token=82f6b9a9-e6f2-4c46-ad5c-f3114656b0d2",
+    "rule" : "@adjust lut purpleC.png"
+  },
+  "-LrODQK51QtiRPgTfdo3" : {
+    "filterName" : "YellowA",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FYellowA.png?alt=media&token=a67b9bde-ea45-42c7-8a89-3865d6f65294",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FYellowA.png?alt=media&token=9fb6cf7f-85da-413f-8228-e4519278b10b",
+    "rule" : "@adjust lut YellowA.png"
+  },
+  "-LrODQPKhI3objuk20Gs" : {
+    "filterName" : "YellowB",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FYellowB.png?alt=media&token=ec800156-e6a7-4698-a8d7-cce3e5018801",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FYellowB.png?alt=media&token=08752e45-7f53-4cc9-ba31-3aceee47bcd9",
+    "rule" : "@adjust lut YellowB.png"
+  },
+  "-LrODQlsbfS4T1yqcVXI" : {
+    "filterName" : "YellowC",
+    "filterPath" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/Filter%2FYellowC.png?alt=media&token=bea75581-d1ac-4756-ab57-059c10c32df8",
+    "filterThumb" : "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumbFilter%2FYellowC.png?alt=media&token=f5a19d68-a31f-47b0-aef9-c01ba17015c2",
+    "rule" : "@adjust lut YellowC.png"
+  }
+}

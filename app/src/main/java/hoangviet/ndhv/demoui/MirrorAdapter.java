@@ -1,5 +1,6 @@
 package hoangviet.ndhv.demoui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,7 +25,7 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
     private List<Mirror> mirrorList;
     private OnClickItemListener onClickItemListener;
 
-    public MirrorAdapter(OnClickItemListener onClickItemListener, Context mContext, List<Mirror> mirrorList) {
+    MirrorAdapter(OnClickItemListener onClickItemListener, Context mContext, List<Mirror> mirrorList) {
         this.mContext = mContext;
         this.mirrorList = mirrorList;
         this.layoutInflater = LayoutInflater.from(mContext);
@@ -39,7 +40,7 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MirrorViewHolder mirrorViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final MirrorViewHolder mirrorViewHolder, @SuppressLint("RecyclerView") final int i) {
         final Mirror mirror = mirrorList.get(i);
         mirrorViewHolder.txtMiror.setText(mirror.getTxtMirror());
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -71,7 +72,7 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
         return mirrorList.size();
     }
 
-    public Bitmap FlipHorizontally(Bitmap originalImage, int position) {
+    private Bitmap FlipHorizontally(Bitmap originalImage, int position) {
         // The gap we want between the flipped image and the original image
         Bitmap bitmapWithFlip = null;
         int width = originalImage.getWidth();
@@ -150,11 +151,11 @@ public class MirrorAdapter extends RecyclerView.Adapter<MirrorAdapter.MirrorView
         void onClickItem(int position);
     }
 
-    public class MirrorViewHolder extends RecyclerView.ViewHolder {
+    class MirrorViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgMirror;
         private TextView txtMiror;
 
-        public MirrorViewHolder(@NonNull View itemView) {
+        MirrorViewHolder(@NonNull View itemView) {
             super(itemView);
             imgMirror = itemView.findViewById(R.id.img_line_mirror);
             txtMiror = itemView.findViewById(R.id.txt_line_mirror);

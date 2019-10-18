@@ -51,20 +51,18 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.FrameViewHol
             frameViewHolder.frameLayout.setBackgroundColor(Color.WHITE);
         }
         ContextWrapper cw = new ContextWrapper(Objects.requireNonNull(mContext.getApplicationContext()));
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File directory = cw.getDir("frameDir", Context.MODE_PRIVATE);
         String path = directory.getAbsolutePath();
         File filePath = new File(path);
         File[] filelist = filePath.listFiles();
         for (File file : filelist) {
-            Log.d("Files", "FileName:" + file.getName());
             if (file.getName().equals(frameList.get(i).getNameFrame())) {
                 frameViewHolder.imgDownload.setVisibility(View.GONE);
             }
         }
-        if (i == 0) {
+        if (i == 0){
             frameViewHolder.imgDownload.setVisibility(View.GONE);
         }
-
         Log.d(TAG, "onBindViewHolder: " + frame.getThubFrame());
         Glide.with(mContext).load(frame.getThubFrame()).into(frameViewHolder.imgFrame);
         frameViewHolder.imgFrame.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -74,7 +72,6 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.FrameViewHol
                 onClickItemFrameListener.onClickItemFrame(i);
             }
         });
-
     }
 
     @Override

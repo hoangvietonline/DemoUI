@@ -47,22 +47,20 @@ import hoangviet.ndhv.demoui.model.Frame;
  * A simple {@link Fragment} subclass.
  */
 public class FrameFragment extends Fragment implements FrameAdapter.onClickItemFrameListener{
-    private static final String TAG = "FrameFragment";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private RecyclerView recyclerViewFrame;
     private List<Frame> frameList;
     private FrameAdapter adapter;
     private setTypeFrameListener mListener;
     private ProgressBar progressBar;
     private TextView txtProgressBar;
     private TextView txtPercentLoad;
-    private ImageView imgDowdload;
+    private int oldPosition = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_frame, container, false);
-        recyclerViewFrame = view.findViewById(R.id.recyclerViewFrame);
+        RecyclerView recyclerViewFrame = view.findViewById(R.id.recyclerViewFrame);
         frameList = new ArrayList<>();
         frameList.add(new Frame("Frame0", "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumb%2Fdisabled.png?alt=media&token=e86b221e-73d5-4f72-aa54-d1d3a7974d63", "", false));
         adapter = new FrameAdapter(this, getActivity(), frameList);
@@ -116,7 +114,7 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
         }
 
         ContextWrapper cw = new ContextWrapper(Objects.requireNonNull(getActivity()).getApplicationContext());
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File directory = cw.getDir("frameDir", Context.MODE_PRIVATE);
         File file = new File(directory, frame.getNameFrame());
         if (!file.exists() && position != 0) {
             String[] pathDown = {frame.getPathFrame(), frame.getNameFrame()};
@@ -126,7 +124,9 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
             adapter.notifyDataSetChanged();
         }
         mListener.setTypeFrame(frame.getNameFrame());
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemChanged(position);
+        adapter.notifyItemChanged(oldPosition);
+        oldPosition = position;
     }
 
     @Override
@@ -136,7 +136,7 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
     }
 
     @SuppressLint("SetTextI18n")
-    private void dialogDownload(String urithumb) {
+    private void dialogDownload(String uriThumb) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_custom, null);
         builder.setView(view);
@@ -144,12 +144,11 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
         ImageButton imageButton = view.findViewById(R.id.btnClause);
         progressBar = view.findViewById(R.id.progressBar);
         txtPercentLoad = view.findViewById(R.id.txtPercentLoad);
-        imgDowdload = view.findViewById(R.id.imgImageDownload);
-        imgDowdload.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(Objects.requireNonNull(getActivity())).load(urithumb).into(imgDowdload);
+        ImageView imgDownload = view.findViewById(R.id.imgImageDownload);
+        imgDownload.setScaleType(ImageView.ScaleType.FIT_XY);
+        Glide.with(Objects.requireNonNull(getActivity())).load(uriThumb).into(imgDownload);
         progressBar.setMax(100);
         txtProgressBar = view.findViewById(R.id.txtDialog);
-        txtProgressBar.setText("download");
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,6 +167,7 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
     @SuppressLint("StaticFieldLeak")
     class DownloadFileFromUrl extends AsyncTask<String, String, String>  {
 
+        @SuppressLint("SetTextI18n")
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -175,8 +175,6 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
             progressBar.setProgress(0);
             txtProgressBar.setText("Downloading file. Please wait...");
         }
-
-
         @SuppressLint("SetTextI18n")
         @Override
         protected String doInBackground(String... path) {
@@ -187,7 +185,7 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
                 int lengOfFile = connection.getContentLength();
                 InputStream input = new BufferedInputStream(url.openStream(), 8192);
                 ContextWrapper cw = new ContextWrapper(Objects.requireNonNull(getActivity()).getApplicationContext());
-                File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                File directory = cw.getDir("frameDir", Context.MODE_PRIVATE);
                 File file = new File(directory, path[1]);
                 if (!file.exists()) {
                     OutputStream output = new FileOutputStream(file);
@@ -203,14 +201,14 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
                     output.flush();
                     output.close();
                     input.close();
-                    mListener.setTypeFrame(path[1]);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return path[1];
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
@@ -218,11 +216,13 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
             txtPercentLoad.setText(values[0] + "%");
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             txtProgressBar.setText("Finish");
             adapter.notifyDataSetChanged();
+            mListener.setTypeFrame(s);
         }
     }
 }

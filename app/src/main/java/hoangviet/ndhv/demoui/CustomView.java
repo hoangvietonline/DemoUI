@@ -116,12 +116,19 @@ public class CustomView extends View {
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(final Canvas canvas) {
+        Bitmap bitmapScale;
         if (bitmap != null) {
             Log.d(TAG, "onDraw:bitmap " + bitmap.toString());
             int btmGalleryWidth = bitmap.getWidth();
             int btmGalleryHeight = bitmap.getHeight();
             int scale = Math.min(btmGalleryWidth / (getWidth() / 2), btmGalleryHeight / getHeight());
-            final Bitmap bitmapScale = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / scale, bitmap.getHeight() / scale, true);
+            if (scale == 0) {
+                scale = 1;
+            }
+            bitmapScale = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / scale, bitmap.getHeight() / scale, true);
+            if (bitmap.getHeight() < getHeight()) {
+                bitmapScale = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() + (getHeight() - bitmap.getHeight()), getHeight(), true);
+            }
             if (typeMirror.equals("M1")) {
                 @SuppressLint("DrawAllocation") Rect desM1L = new Rect(0, 0, getWidth() / 2, getHeight());
                 @SuppressLint("DrawAllocation") Rect desM1R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
@@ -141,7 +148,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapMatrix, new Rect(newStartX, 0, newEndX, getHeight()), desM2L, null);
                 canvas.drawBitmap(bitmapScale, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM2R, null);
             } else if (typeMirror.equals("M3")) {
-                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
+                Bitmap bitmapScaleM3 = getBitmapScaleTopBot();
                 Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM3 = new Matrix();
@@ -151,7 +158,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapScaleM3, new Rect(0, newStartY, getWidth(), newEndY), desM3T, null);
                 canvas.drawBitmap(bitmapFlipM3, new Rect(0, bitmapFlipM3.getHeight() - newEndY, getWidth(), bitmapFlipM3.getHeight() - newStartY), desM3B, null);
             } else if (typeMirror.equals("M4")) {
-                Bitmap bitmapScaleM4 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
+                Bitmap bitmapScaleM4 = getBitmapScaleTopBot();
                 Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM4 = new Matrix();
@@ -176,7 +183,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5L, null);
                 canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5R, null);
             } else if (typeMirror.equals("M6")) {
-                Bitmap bitmapScaleM6 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
+                Bitmap bitmapScaleM6 = getBitmapScaleTopBot();
                 Rect desM6T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM6B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 int delta = downY - currentY;
@@ -202,7 +209,7 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM7L, null);
                 canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, bitmapMatrix.getHeight() - getHeight(), bitmapMatrix.getWidth() - newStartX, bitmapMatrix.getHeight()), desM7R, null);
             } else {
-                Bitmap bitmapScaleM3 = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
+                Bitmap bitmapScaleM3 = getBitmapScaleTopBot();
                 Rect desM8T = new Rect(0, 0, getWidth(), getHeight() / 2);
                 Rect desM8B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
                 Matrix matrixM3 = new Matrix();
@@ -212,12 +219,12 @@ public class CustomView extends View {
                 canvas.drawBitmap(bitmapScaleM3, new Rect(0, newStartY, getWidth(), newEndY), desM8T, null);
                 canvas.drawBitmap(bitmapFlipM8, new Rect(0, bitmapFlipM8.getHeight() - newEndY, getWidth(), bitmapFlipM8.getHeight() - newStartY), desM8B, null);
             }
-            if (!typeFrame.equals("")){
+            if (!typeFrame.equals("")) {
                 ContextWrapper cw = new ContextWrapper(Objects.requireNonNull(getContext()));
-                File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                File directory = cw.getDir("frameDir", Context.MODE_PRIVATE);
                 String path = directory.getAbsolutePath();
                 File image = new File(path, typeFrame);
-                if (image.exists()){
+                if (image.exists()) {
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                     Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), bmOptions);
                     Bitmap bitmapScaleFrame = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
@@ -282,6 +289,7 @@ public class CustomView extends View {
         return newEndY;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
@@ -304,5 +312,16 @@ public class CustomView extends View {
                 break;
         }
         return true;
+    }
+
+    private Bitmap getBitmapScaleTopBot() {
+        Bitmap bitmapScale;
+        if (getWidth() > bitmap.getWidth()) {
+            int scaleHeight = getWidth() - bitmap.getWidth();
+            bitmapScale = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() + scaleHeight, bitmap.getHeight() + scaleHeight, true);
+        } else {
+            bitmapScale = Bitmap.createScaledBitmap(bitmap, getWidth(), (bitmap.getHeight() / (bitmap.getWidth() / getWidth())), true);
+        }
+        return bitmapScale;
     }
 }

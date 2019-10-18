@@ -3,6 +3,7 @@ package hoangviet.ndhv.demoui;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -43,12 +44,14 @@ import com.bumptech.glide.request.target.Target;
 import org.wysaid.nativePort.CGENativeLibrary;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class MirrorActivity extends AppCompatActivity implements MirrorFragment.OnClickTypeMirror, FrameFragment.setTypeFrameListener, FilterFragment.OnTypeFilterListener {
@@ -57,22 +60,34 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
     public CGENativeLibrary.LoadImageCallback mLoadImageCallback = new CGENativeLibrary.LoadImageCallback() {
         @Override
         public Bitmap loadImage(String name, Object arg) {
-            AssetManager assetManager = getAssets();
-            InputStream inputStream;
-
-            try {
-                inputStream = assetManager.open(name);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
+            List<String> assetsFileName = getListAssetsName();
+            for (int i = 0; i < assetsFileName.size(); i++) {
+                if (name.equals(assetsFileName.get(i))) {
+                    AssetManager assetManager = getAssets();
+                    InputStream inputStream = null;
+                    try {
+                        inputStream = assetManager.open(name);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return BitmapFactory.decodeStream(inputStream);
+                }
             }
-            return BitmapFactory.decodeStream(inputStream);
+            List<String> filterName = getListFilterName();
+            for (int j = 0; j < filterName.size(); j++) {
+                if (name.equals(filterName.get(j))) {
+                    ContextWrapper cw = new ContextWrapper(Objects.requireNonNull(getApplicationContext()));
+                    File directory = cw.getDir("filterDir", Context.MODE_PRIVATE);
+                    File file = new File(directory, name);
+                    return BitmapFactory.decodeFile(file.getAbsolutePath());
+                }
+            }
+            return null;
         }
 
         @Override
         public void loadImageOK(Bitmap bmp, Object arg) {
             bmp.recycle();
-
         }
     };
     public ProgressBar progressBarFilter;
@@ -82,6 +97,34 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
     private TextView txtTitleToobar;
     private Bitmap bitmapResource, bitmapCustom;
     private TextView tabOne, tabTwo, tabThree;
+
+    private List<String> getListAssetsName() {
+        AssetManager assetManager = getAssets();
+        List<String> listName = new ArrayList<>();
+        String[] fileList;
+        try {
+            fileList = assetManager.list("");
+            if (fileList != null) {
+                listName.addAll(Arrays.asList(fileList));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listName;
+    }
+
+    private List<String> getListFilterName() {
+        List<String> filterNameList = new ArrayList<>();
+        ContextWrapper cw = new ContextWrapper(Objects.requireNonNull(getApplicationContext()));
+        File directory = cw.getDir("filterDir", Context.MODE_PRIVATE);
+        String path = directory.getAbsolutePath();
+        File filePath = new File(path);
+        File[] filelist = filePath.listFiles();
+        for (File file : filelist) {
+            filterNameList.add(file.getName());
+        }
+        return filterNameList;
+    }
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
@@ -99,7 +142,7 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
             actionBar.setHomeAsUpIndicator(R.drawable.ic_previous);
         }
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        CGENativeLibrary.setLoadImageCallback(mLoadImageCallback, null);
+
 
         ViewPager viewPagerMirror = findViewById(R.id.viewPagerMirror);
         customView = findViewById(R.id.customViewMirror);
@@ -170,6 +213,7 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
 
             }
         });
+        CGENativeLibrary.setLoadImageCallback(mLoadImageCallback, null);
     }
 
     @SuppressLint("InflateParams")
@@ -227,12 +271,12 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
     }
 
     @Override
-    public void onTypeFilter(final int position) {
+    public void onTypeFilter(final String filterRule) {
         progressBarFilter.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final Bitmap bitmapFilter = CGENativeLibrary.filterImage_MultipleEffects(bitmapResource, FilterFragment.EFFECT_CONFIGS[position], 1.0f);
+                final Bitmap bitmapFilter = CGENativeLibrary.filterImage_MultipleEffects(bitmapResource, filterRule, 1.0f);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -308,8 +352,6 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
             Toast.makeText(this, "Save image success", Toast.LENGTH_SHORT).show();
             fileOutputStream.flush();
             fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

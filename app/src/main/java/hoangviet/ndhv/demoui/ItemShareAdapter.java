@@ -1,5 +1,6 @@
 package hoangviet.ndhv.demoui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,7 @@ public class ItemShareAdapter extends RecyclerView.Adapter<ItemShareAdapter.Item
     private List<ItemShare> itemShareList;
     private OnClickItemShareListener onClickItemShareListener;
 
-    public ItemShareAdapter(OnClickItemShareListener onClickItemShareListener,Context mContext, List<ItemShare> itemShareList) {
+    ItemShareAdapter(OnClickItemShareListener onClickItemShareListener, Context mContext, List<ItemShare> itemShareList) {
         this.mContext = mContext;
         this.itemShareList = itemShareList;
         this.inflater = LayoutInflater.from(mContext);
@@ -34,7 +35,7 @@ public class ItemShareAdapter extends RecyclerView.Adapter<ItemShareAdapter.Item
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, @SuppressLint("RecyclerView") final int i) {
         ItemShare itemShare = itemShareList.get(i);
         itemViewHolder.imgShare.setImageResource(itemShare.getImageShare());
         itemViewHolder.txtTittleShare.setText(itemShare.getTittleShare());
@@ -51,11 +52,11 @@ public class ItemShareAdapter extends RecyclerView.Adapter<ItemShareAdapter.Item
         return itemShareList.size();
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgShare;
         private TextView txtTittleShare;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             imgShare = itemView.findViewById(R.id.img_item_share);
             txtTittleShare = itemView.findViewById(R.id.txt_item_tittle_share);
