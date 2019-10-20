@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class ViewPagerMirrorAdapter extends FragmentStatePagerAdapter {
-    public ViewPagerMirrorAdapter(FragmentManager fm) {
+    ViewPagerMirrorAdapter(FragmentManager fm) {
         super(fm);
     }
 

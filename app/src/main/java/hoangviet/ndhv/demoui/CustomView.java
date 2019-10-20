@@ -21,7 +21,6 @@ import java.util.Objects;
 
 public class CustomView extends View {
     private static final String TAG = "CustomView";
-    private Paint mPaint;
     private int currentX = 0;
     private int currentY = 0;
     private int downX = 0;
@@ -104,7 +103,7 @@ public class CustomView extends View {
     }
 
     public void init(Context context, AttributeSet attributeSet) {
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(Color.RED);
         mPaint.setStrokeWidth(10);
         mPaint.setStyle(Paint.Style.FILL);
@@ -129,95 +128,112 @@ public class CustomView extends View {
             if (bitmap.getHeight() < getHeight()) {
                 bitmapScale = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() + (getHeight() - bitmap.getHeight()), getHeight(), true);
             }
-            if (typeMirror.equals("M1")) {
-                @SuppressLint("DrawAllocation") Rect desM1L = new Rect(0, 0, getWidth() / 2, getHeight());
-                @SuppressLint("DrawAllocation") Rect desM1R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
-                Matrix matrix = new Matrix();
-                matrix.preScale(-1.0f, 1.0f);
-                @SuppressLint("DrawAllocation") Bitmap bitmapMatrix = Bitmap.createBitmap(bitmapScale, 0, 0, bitmapScale.getWidth(), bitmapScale.getHeight(), matrix, true);
-                int newEndX = initDrawBitmapTouchX(bitmapScale);
-                canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM1L, null);
-                canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM1R, null);
-            } else if (typeMirror.equals("M2")) {
-                @SuppressLint("DrawAllocation") Rect desM2L = new Rect(0, 0, getWidth() / 2, getHeight());
-                @SuppressLint("DrawAllocation") Rect desM2R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
-                Matrix matrix = new Matrix();
-                matrix.preScale(-1.0f, 1.0f);
-                @SuppressLint("DrawAllocation") Bitmap bitmapMatrix = Bitmap.createBitmap(bitmapScale, 0, 0, bitmapScale.getWidth(), bitmapScale.getHeight(), matrix, true);
-                int newEndX = initDrawBitmapTouchX(bitmapScale);
-                canvas.drawBitmap(bitmapMatrix, new Rect(newStartX, 0, newEndX, getHeight()), desM2L, null);
-                canvas.drawBitmap(bitmapScale, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM2R, null);
-            } else if (typeMirror.equals("M3")) {
-                Bitmap bitmapScaleM3 = getBitmapScaleTopBot();
-                Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
-                Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
-                Matrix matrixM3 = new Matrix();
-                matrixM3.preScale(1.0f, -1.0f);
-                Bitmap bitmapFlipM3 = Bitmap.createBitmap(bitmapScaleM3, 0, 0, bitmapScaleM3.getWidth(), bitmapScaleM3.getHeight(), matrixM3, true);
-                int newEndY = initDrawBitmapTouchY(bitmapScaleM3);
-                canvas.drawBitmap(bitmapScaleM3, new Rect(0, newStartY, getWidth(), newEndY), desM3T, null);
-                canvas.drawBitmap(bitmapFlipM3, new Rect(0, bitmapFlipM3.getHeight() - newEndY, getWidth(), bitmapFlipM3.getHeight() - newStartY), desM3B, null);
-            } else if (typeMirror.equals("M4")) {
-                Bitmap bitmapScaleM4 = getBitmapScaleTopBot();
-                Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
-                Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
-                Matrix matrixM4 = new Matrix();
-                matrixM4.preScale(1.0f, -1.0f);
-                Bitmap bitmapFlipM4 = Bitmap.createBitmap(bitmapScaleM4, 0, 0, bitmapScaleM4.getWidth(), bitmapScaleM4.getHeight(), matrixM4, true);
-                int newEndY = initDrawBitmapTouchY(bitmapScaleM4);
-                canvas.drawBitmap(bitmapFlipM4, new Rect(0, newStartY, getWidth(), newEndY), desM3T, null);
-                canvas.drawBitmap(bitmapScaleM4, new Rect(0, bitmapFlipM4.getHeight() - newEndY, getWidth(), bitmapFlipM4.getHeight() - newStartY), desM3B, null);
-            } else if (typeMirror.equals("M5")) {
-                @SuppressLint("DrawAllocation") Rect desM5L = new Rect(0, 0, getWidth() / 2, getHeight());
-                @SuppressLint("DrawAllocation") Rect desM5R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
-                int delta = downX - currentX;
-                newStartX = startX + delta;
-                int newEndX = newStartX + getWidth() / 2;
-                if (newEndX >= bitmapScale.getWidth()) {
-                    newEndX = bitmapScale.getWidth();
-                    newStartX = newEndX - getWidth() / 2;
-                } else if (newStartX < 0) {
-                    newStartX = 0;
-                    newEndX = newStartX + getWidth() / 2;
+            switch (typeMirror) {
+                case "M1": {
+                    @SuppressLint("DrawAllocation") Rect desM1L = new Rect(0, 0, getWidth() / 2, getHeight());
+                    @SuppressLint("DrawAllocation") Rect desM1R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
+                    Matrix matrix = new Matrix();
+                    matrix.preScale(-1.0f, 1.0f);
+                    @SuppressLint("DrawAllocation") Bitmap bitmapMatrix = Bitmap.createBitmap(bitmapScale, 0, 0, bitmapScale.getWidth(), bitmapScale.getHeight(), matrix, true);
+                    int newEndX = initDrawBitmapTouchX(bitmapScale);
+                    canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM1L, null);
+                    canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM1R, null);
+                    break;
                 }
-                canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5L, null);
-                canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5R, null);
-            } else if (typeMirror.equals("M6")) {
-                Bitmap bitmapScaleM6 = getBitmapScaleTopBot();
-                Rect desM6T = new Rect(0, 0, getWidth(), getHeight() / 2);
-                Rect desM6B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
-                int delta = downY - currentY;
-                newStartY = startY + delta;
-                int newEndY = newStartY + getHeight() / 2;
-                if (newEndY >= bitmapScaleM6.getHeight()) {
-                    newEndY = bitmapScaleM6.getHeight();
-                    newStartY = newEndY - getHeight() / 2;
-                } else if (newStartY < 0) {
-                    newStartY = 0;
-                    newEndY = newStartY + getHeight() / 2;
+                case "M2": {
+                    @SuppressLint("DrawAllocation") Rect desM2L = new Rect(0, 0, getWidth() / 2, getHeight());
+                    @SuppressLint("DrawAllocation") Rect desM2R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
+                    Matrix matrix = new Matrix();
+                    matrix.preScale(-1.0f, 1.0f);
+                    @SuppressLint("DrawAllocation") Bitmap bitmapMatrix = Bitmap.createBitmap(bitmapScale, 0, 0, bitmapScale.getWidth(), bitmapScale.getHeight(), matrix, true);
+                    int newEndX = initDrawBitmapTouchX(bitmapScale);
+                    canvas.drawBitmap(bitmapMatrix, new Rect(newStartX, 0, newEndX, getHeight()), desM2L, null);
+                    canvas.drawBitmap(bitmapScale, new Rect(bitmapMatrix.getWidth() - newEndX, 0, bitmapMatrix.getWidth() - newStartX, getHeight()), desM2R, null);
+                    break;
                 }
-                canvas.drawBitmap(bitmapScaleM6, new Rect(0, newStartY, getWidth(), newEndY), desM6T, null);
-                canvas.drawBitmap(bitmapScaleM6, new Rect(0, newStartY, getWidth(), newEndY), desM6B, null);
+                case "M3": {
+                    Bitmap bitmapScaleM3 = getBitmapScaleTopBot();
+                    Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
+                    Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
+                    Matrix matrixM3 = new Matrix();
+                    matrixM3.preScale(1.0f, -1.0f);
+                    Bitmap bitmapFlipM3 = Bitmap.createBitmap(bitmapScaleM3, 0, 0, bitmapScaleM3.getWidth(), bitmapScaleM3.getHeight(), matrixM3, true);
+                    int newEndY = initDrawBitmapTouchY(bitmapScaleM3);
+                    canvas.drawBitmap(bitmapScaleM3, new Rect(0, newStartY, getWidth(), newEndY), desM3T, null);
+                    canvas.drawBitmap(bitmapFlipM3, new Rect(0, bitmapFlipM3.getHeight() - newEndY, getWidth(), bitmapFlipM3.getHeight() - newStartY), desM3B, null);
+                    break;
+                }
+                case "M4": {
+                    Bitmap bitmapScaleM4 = getBitmapScaleTopBot();
+                    Rect desM3T = new Rect(0, 0, getWidth(), getHeight() / 2);
+                    Rect desM3B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
+                    Matrix matrixM4 = new Matrix();
+                    matrixM4.preScale(1.0f, -1.0f);
+                    Bitmap bitmapFlipM4 = Bitmap.createBitmap(bitmapScaleM4, 0, 0, bitmapScaleM4.getWidth(), bitmapScaleM4.getHeight(), matrixM4, true);
+                    int newEndY = initDrawBitmapTouchY(bitmapScaleM4);
+                    canvas.drawBitmap(bitmapFlipM4, new Rect(0, newStartY, getWidth(), newEndY), desM3T, null);
+                    canvas.drawBitmap(bitmapScaleM4, new Rect(0, bitmapFlipM4.getHeight() - newEndY, getWidth(), bitmapFlipM4.getHeight() - newStartY), desM3B, null);
+                    break;
+                }
+                case "M5": {
+                    @SuppressLint("DrawAllocation") Rect desM5L = new Rect(0, 0, getWidth() / 2, getHeight());
+                    @SuppressLint("DrawAllocation") Rect desM5R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
+                    int delta = downX - currentX;
+                    newStartX = startX + delta;
+                    int newEndX = newStartX + getWidth() / 2;
+                    if (newEndX >= bitmapScale.getWidth()) {
+                        newEndX = bitmapScale.getWidth();
+                        newStartX = newEndX - getWidth() / 2;
+                    } else if (newStartX < 0) {
+                        newStartX = 0;
+                        newEndX = newStartX + getWidth() / 2;
+                    }
+                    canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5L, null);
+                    canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM5R, null);
+                    break;
+                }
+                case "M6": {
+                    Bitmap bitmapScaleM6 = getBitmapScaleTopBot();
+                    Rect desM6T = new Rect(0, 0, getWidth(), getHeight() / 2);
+                    Rect desM6B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
+                    int delta = downY - currentY;
+                    newStartY = startY + delta;
+                    int newEndY = newStartY + getHeight() / 2;
+                    if (newEndY >= bitmapScaleM6.getHeight()) {
+                        newEndY = bitmapScaleM6.getHeight();
+                        newStartY = newEndY - getHeight() / 2;
+                    } else if (newStartY < 0) {
+                        newStartY = 0;
+                        newEndY = newStartY + getHeight() / 2;
+                    }
+                    canvas.drawBitmap(bitmapScaleM6, new Rect(0, newStartY, getWidth(), newEndY), desM6T, null);
+                    canvas.drawBitmap(bitmapScaleM6, new Rect(0, newStartY, getWidth(), newEndY), desM6B, null);
 
-            } else if (typeMirror.equals("M7")) {
-                @SuppressLint("DrawAllocation") Rect desM7L = new Rect(0, 0, getWidth() / 2, getHeight());
-                @SuppressLint("DrawAllocation") Rect desM7R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
-                Matrix matrix = new Matrix();
-                matrix.preScale(-1.0f, -1.0f);
-                @SuppressLint("DrawAllocation") Bitmap bitmapMatrix = Bitmap.createBitmap(bitmapScale, 0, 0, bitmapScale.getWidth(), bitmapScale.getHeight(), matrix, true);
-                int newEndX = initDrawBitmapTouchX(bitmapScale);
-                canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM7L, null);
-                canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, bitmapMatrix.getHeight() - getHeight(), bitmapMatrix.getWidth() - newStartX, bitmapMatrix.getHeight()), desM7R, null);
-            } else {
-                Bitmap bitmapScaleM3 = getBitmapScaleTopBot();
-                Rect desM8T = new Rect(0, 0, getWidth(), getHeight() / 2);
-                Rect desM8B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
-                Matrix matrixM3 = new Matrix();
-                matrixM3.preScale(-1.0f, -1.0f);
-                Bitmap bitmapFlipM8 = Bitmap.createBitmap(bitmapScaleM3, 0, 0, bitmapScaleM3.getWidth(), bitmapScaleM3.getHeight(), matrixM3, true);
-                int newEndY = initDrawBitmapTouchY(bitmapScaleM3);
-                canvas.drawBitmap(bitmapScaleM3, new Rect(0, newStartY, getWidth(), newEndY), desM8T, null);
-                canvas.drawBitmap(bitmapFlipM8, new Rect(0, bitmapFlipM8.getHeight() - newEndY, getWidth(), bitmapFlipM8.getHeight() - newStartY), desM8B, null);
+                    break;
+                }
+                case "M7": {
+                    @SuppressLint("DrawAllocation") Rect desM7L = new Rect(0, 0, getWidth() / 2, getHeight());
+                    @SuppressLint("DrawAllocation") Rect desM7R = new Rect(getWidth() / 2, 0, getWidth(), getHeight());
+                    Matrix matrix = new Matrix();
+                    matrix.preScale(-1.0f, -1.0f);
+                    @SuppressLint("DrawAllocation") Bitmap bitmapMatrix = Bitmap.createBitmap(bitmapScale, 0, 0, bitmapScale.getWidth(), bitmapScale.getHeight(), matrix, true);
+                    int newEndX = initDrawBitmapTouchX(bitmapScale);
+                    canvas.drawBitmap(bitmapScale, new Rect(newStartX, 0, newEndX, getHeight()), desM7L, null);
+                    canvas.drawBitmap(bitmapMatrix, new Rect(bitmapMatrix.getWidth() - newEndX, bitmapMatrix.getHeight() - getHeight(), bitmapMatrix.getWidth() - newStartX, bitmapMatrix.getHeight()), desM7R, null);
+                    break;
+                }
+                default: {
+                    Bitmap bitmapScaleM3 = getBitmapScaleTopBot();
+                    Rect desM8T = new Rect(0, 0, getWidth(), getHeight() / 2);
+                    Rect desM8B = new Rect(0, getHeight() / 2, getWidth(), getHeight());
+                    Matrix matrixM3 = new Matrix();
+                    matrixM3.preScale(-1.0f, -1.0f);
+                    Bitmap bitmapFlipM8 = Bitmap.createBitmap(bitmapScaleM3, 0, 0, bitmapScaleM3.getWidth(), bitmapScaleM3.getHeight(), matrixM3, true);
+                    int newEndY = initDrawBitmapTouchY(bitmapScaleM3);
+                    canvas.drawBitmap(bitmapScaleM3, new Rect(0, newStartY, getWidth(), newEndY), desM8T, null);
+                    canvas.drawBitmap(bitmapFlipM8, new Rect(0, bitmapFlipM8.getHeight() - newEndY, getWidth(), bitmapFlipM8.getHeight() - newStartY), desM8B, null);
+                    break;
+                }
             }
             if (!typeFrame.equals("")) {
                 ContextWrapper cw = new ContextWrapper(Objects.requireNonNull(getContext()));

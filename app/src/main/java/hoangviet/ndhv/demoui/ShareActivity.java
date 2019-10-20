@@ -1,5 +1,6 @@
 package hoangviet.ndhv.demoui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -23,26 +24,21 @@ import java.util.List;
 import hoangviet.ndhv.demoui.model.ItemShare;
 
 public class ShareActivity extends AppCompatActivity implements ItemShareAdapter.OnClickItemShareListener {
-    private static final String TAG = "ShareActivity";
-    private ImageView imgSave;
-    private Toolbar toolbarSave;
-    private TextView txtUriImage;
-    private RecyclerView recyclerViewShare;
     private List<ItemShare> itemShareList;
-    private ItemShareAdapter itemShareAdapter;
     private Uri imageUri;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_image);
-        toolbarSave = findViewById(R.id.toolbarSaveActivity);
-        txtUriImage = findViewById(R.id.txtUriImage);
-        imgSave = findViewById(R.id.imgSaveActivity);
-        recyclerViewShare = findViewById(R.id.recyclerViewShare);
+        Toolbar toolbarSave = findViewById(R.id.toolbarSaveActivity);
+        TextView txtUriImage = findViewById(R.id.txtUriImage);
+        ImageView imgSave = findViewById(R.id.imgSaveActivity);
+        RecyclerView recyclerViewShare = findViewById(R.id.recyclerViewShare);
         itemShareList = new ArrayList<>();
         addItemsShare();
-        itemShareAdapter = new ItemShareAdapter(this, this, itemShareList);
+        ItemShareAdapter itemShareAdapter = new ItemShareAdapter(this, this, itemShareList);
         recyclerViewShare.setAdapter(itemShareAdapter);
         recyclerViewShare.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         setSupportActionBar(toolbarSave);
@@ -57,7 +53,7 @@ public class ShareActivity extends AppCompatActivity implements ItemShareAdapter
         imageUri = Uri.parse(bundle.getString("UriFileImage"));
         String addressFile = bundle.getString("addressFile");
         Glide.with(this).load(imageUri).into(imgSave);
-        txtUriImage.setText(addressFile);
+        txtUriImage.setText("Image saved at: "+addressFile);
     }
 
     private void addItemsShare() {

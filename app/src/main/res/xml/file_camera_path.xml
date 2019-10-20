@@ -7,8 +7,5 @@
     <external-path
         name="external_files"
         path="Pictures/Mirror" />
-    <external-path
-        name="external_frame"
-        path="Pictures/Frame" />
 
 </paths>

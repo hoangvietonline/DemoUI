@@ -349,7 +349,6 @@ public class MirrorActivity extends AppCompatActivity implements MirrorFragment.
         try {
             fileOutputStream = new FileOutputStream(new_file);
             bitmapCustom.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-            Toast.makeText(this, "Save image success", Toast.LENGTH_SHORT).show();
             fileOutputStream.flush();
             fileOutputStream.close();
         } catch (IOException e) {

@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,11 +20,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -37,6 +34,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,7 +45,6 @@ import hoangviet.ndhv.demoui.model.Frame;
  * A simple {@link Fragment} subclass.
  */
 public class FrameFragment extends Fragment implements FrameAdapter.onClickItemFrameListener{
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
     private List<Frame> frameList;
     private FrameAdapter adapter;
     private setTypeFrameListener mListener;
@@ -63,40 +60,28 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
         RecyclerView recyclerViewFrame = view.findViewById(R.id.recyclerViewFrame);
         frameList = new ArrayList<>();
         frameList.add(new Frame("Frame0", "https://firebasestorage.googleapis.com/v0/b/mirror-644b6.appspot.com/o/thumb%2Fdisabled.png?alt=media&token=e86b221e-73d5-4f72-aa54-d1d3a7974d63", "", false));
+        Gson gson = new Gson();
+        String json = loadJSONFromAsset();
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            Iterator<String> keys = jsonObject.keys();
+
+            while(keys.hasNext()) {
+                String key = keys.next();
+                if (jsonObject.get(key) instanceof JSONObject) {
+                    JSONObject object = (JSONObject) jsonObject.get(key);
+                    Frame frame = gson.fromJson(object.toString(),Frame.class);
+                    frameList.add(frame);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         adapter = new FrameAdapter(this, getActivity(), frameList);
         recyclerViewFrame.setAdapter(adapter);
         recyclerViewFrame.setLayoutManager(new GridLayoutManager(getActivity(), 6, LinearLayoutManager.VERTICAL, false));
-        DatabaseReference myRef = database.getReference();
 
-
-        myRef.child("frameDatabase").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Frame frame = dataSnapshot.getValue(Frame.class);
-                frameList.add(frame);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         return view;
     }
@@ -224,5 +209,20 @@ public class FrameFragment extends Fragment implements FrameAdapter.onClickItemF
             adapter.notifyDataSetChanged();
             mListener.setTypeFrame(s);
         }
+    }
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = Objects.requireNonNull(getActivity()).getAssets().open("frameDatabase.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }

@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,12 +25,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.wysaid.nativePort.CGENativeLibrary;
 
 import java.io.BufferedInputStream;
@@ -42,7 +39,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,21 +56,18 @@ public class FilterFragment extends Fragment implements FilterAdapter.onCLickIte
             "None", "natural1", "natural2", "pure01", "pure02", "lovely01", "lovely02", "lovely03", "lovely04",
             "warm01", "warm02", "cool01", "cool02", "vintage", "gray"};
     private static final String TAG = "FilterFragment";
-    private FirebaseDatabase databaseFilter = FirebaseDatabase.getInstance();
     private List<FilterData> filterDataList;
-    private RecyclerView recyclerView;
     private FilterAdapter adapter;
     private OnTypeFilterListener onTypeFilterListener;
     private TextView txtPercentLoad, txtProgressBar;
     private ProgressBar progressBar;
-    private ImageView imgDownloadFilter;
     private int oldPosition = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
-        recyclerView = view.findViewById(R.id.recyclerViewFilter);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewFilter);
         filterDataList = new ArrayList<>();
         addFilter();
         adapter = new FilterAdapter(this, getActivity(), filterDataList);
@@ -79,46 +75,27 @@ public class FilterFragment extends Fragment implements FilterAdapter.onCLickIte
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(40);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 6, LinearLayoutManager.VERTICAL, false));
-        DatabaseReference myRef = databaseFilter.getReference();
 
-        myRef.child("filterDatabase").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                FilterData filterData = dataSnapshot.getValue(FilterData.class);
-                filterDataList.add(filterData);
-                adapter.notifyDataSetChanged();
+        Gson gson = new Gson();
+        String json = loadJSONFromAsset();
+
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            Iterator<String> keys = jsonObject.keys();
+
+            while(keys.hasNext()) {
+                String key = keys.next();
+                if (jsonObject.get(key) instanceof JSONObject) {
+                    JSONObject object = (JSONObject) jsonObject.get(key);
+                    FilterData filter = gson.fromJson(object.toString(),FilterData.class);
+                    filterDataList.add(filter);
+                    adapter.notifyDataSetChanged();
+                }
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        //dùng gson lấy dữ liệu từ assets parse json
-//        AssetManager assetManager = getActivity().getAssets();
-//        try {
-//            InputStream inputStream = assetManager.open("filterDatabase.json");
-//            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-//            Gson gson = new Gson();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         Log.d(TAG, "onCreateView: " + filterDataList.size());
         return view;
     }
@@ -176,7 +153,7 @@ public class FilterFragment extends Fragment implements FilterAdapter.onCLickIte
         ImageButton imageButton = view.findViewById(R.id.btnClause);
         progressBar = view.findViewById(R.id.progressBar);
         txtPercentLoad = view.findViewById(R.id.txtPercentLoad);
-        imgDownloadFilter = view.findViewById(R.id.imgImageDownload);
+        ImageView imgDownloadFilter = view.findViewById(R.id.imgImageDownload);
         imgDownloadFilter.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(Objects.requireNonNull(getActivity())).load(filterThumb).into(imgDownloadFilter);
         progressBar.setMax(100);
@@ -257,5 +234,19 @@ public class FilterFragment extends Fragment implements FilterAdapter.onCLickIte
             Log.d(TAG, "onPostExecute:ruleFilter " + s);
         }
     }
-
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = Objects.requireNonNull(getActivity()).getAssets().open("filterDatabase.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
 }
